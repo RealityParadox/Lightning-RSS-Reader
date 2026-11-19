@@ -1,0 +1,6 @@
+# local, machine-specific settings (see the *.example files)
+server/.env
+deploy.env
+CLAUDE.local.md
+.claude/settings.local.json
+server/www/
