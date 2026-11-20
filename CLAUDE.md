@@ -15,7 +15,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 - `sw.js`: service worker, push notifications only (no fetch handler, no offline cache).
 - `server/server.js` + `Dockerfile` + `docker-compose.yml`: single Node container, zero dependencies. It serves the app files (baked into the image under `/app/www`), proxies `/api/` to `FRESHRSS_URL` (so the app stays same-origin with no code change) and runs the push notifier under `/push/` (Web Push encryption and VAPID via `node:crypto`; keys and subscriptions in `/data`). `/healthz` for the healthcheck. `.dockerignore` is a whitelist: add new app files there, in the `Dockerfile` and in `deploy.sh`.
 - `deploy.sh`: rsyncs the build context, `docker-compose.yml` and `.env` over SSH, then runs `docker compose up -d --build`. Configured by `deploy.env` (git-ignored, see `deploy.env.example`).
-- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v66). **Bump it on every change**: it is how to check which build a device loaded.
+- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v69). **Bump it on every change**: it is how to check which build a device loaded.
 
 ## Deployment
 - The app must be served from the same origin as FreshRSS's `/api/greader.php` (it builds API URLs from `location.origin`). Either use the Docker container, which proxies `/api/`, or drop the files in FreshRSS's `p/` folder (no notifications then).
@@ -51,6 +51,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 - Notifications (option off by default, interval 5 min to 3 h): `pushOn()` registers `sw.js`, subscribes with the server's VAPID key (`GET push/key`) and posts subscription + FreshRSS token + interval to `push/subscribe` (also on every app start). The notifier checks `stream/items/ids` per subscription; "new" = id greater than the largest id seen (FreshRSS ids grow with insertion time); first check only sets the baseline. Counts and titles accumulate until the app posts `push/seen` (on every visibility change). `sw.js` shows nothing if an app window is visible. Tag `unread` replaces the previous notification.
 - List toolbar at the bottom: `#hd` gets `order:9` + `sticky bottom`; the observer rootMargin, `#sync` sticky offset and `seenLimit()` account for it.
 - Two-column layout at 900px and wider: list on the left (scrolls in `#left`), article pane on the right (`#art`), draggable splitter (`--lw`, saved in `localStorage.lw`, double-click resets). Selecting an article uses `history.replaceState` + `route()`; nothing is selected after a refresh. Swipe gestures on cards are touch-only.
+- Unread badge: `updateCount()` calls `setBadge(unreadN)`, which prefixes the title with `(N)` (Vivaldi turns that into a blue tab badge, like for FreshRSS) and calls `navigator.setAppBadge()` (only effective for installed PWAs on Windows/macOS/ChromeOS; no-op on Linux and Android, where launchers only badge notifications). The favicon itself is deliberately left unchanged (user preference). The push payload also carries `unread` (server-side total, up to 1000) so `sw.js` can set the app badge while the app is closed.
 - Loading indicator: thin animated bar at the top plus a spinning refresh icon.
 
 ## Architecture notes

@@ -5,9 +5,13 @@ self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
 self.addEventListener('push', e => e.waitUntil((async () => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch {}
-  /* the app is on screen: no notification */
+  /* the app is on screen: it keeps the badge and the list up to date itself, no notification */
   const cs = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
   if (cs.some(c => c.visibilityState == 'visible')) return;
+  /* total unread count on the installed app icon (Badging API, where supported) */
+  if (typeof d.unread == 'number' && 'setAppBadge' in self.navigator) {
+    try { await (d.unread ? self.navigator.setAppBadge(d.unread) : self.navigator.clearAppBadge()); } catch {}
+  }
   await self.registration.showNotification(d.title || 'New articles', {
     body: d.body || '', tag: 'unread', renotify: true, icon: 'app-192.png', data: { url: './' },
   });

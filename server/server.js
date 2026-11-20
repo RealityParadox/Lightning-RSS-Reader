@@ -147,7 +147,7 @@ async function check(endpoint, s) {
   const acc = s.acc || { n: 0, titles: [] };
   s.acc = { n: acc.n + added.length, titles: [...titles, ...acc.titles].slice(0, 5) };
   const n = s.acc.n;
-  const st = await push(s.sub, { title: `${n} new article${n > 1 ? 's' : ''}`, body: s.acc.titles.join('\n') });
+  const st = await push(s.sub, { title: `${n} new article${n > 1 ? 's' : ''}`, body: s.acc.titles.join('\n'), unread: ids.length });
   if (st == 404 || st == 410) { delete subs[endpoint]; log('subscription expired, removed'); }
   else if (st >= 400) log('push service returned', st);
 }
