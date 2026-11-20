@@ -12,12 +12,13 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 ## Files
 - `index.html`: all HTML, CSS and JS.
 - `app.webmanifest`, `app-192.png`, `app-512.png`: the PWA manifest and icons actually in use (see "Gotchas").
-- `server/`: optional standalone nginx container (`docker-compose.yml`, `nginx/default.conf.template`, `.env.example`). It serves the app and proxies `/api/` to FreshRSS, so the app stays same-origin with no code change.
-- `deploy.sh`: rsync over SSH to the server, configured by `deploy.env` (git-ignored, see `deploy.env.example`). `./deploy.sh server` also pushes the server files and recreates the container.
-- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v63). **Bump it on every change**: it is how to check which build a device loaded.
+- `sw.js`: service worker, push notifications only (no fetch handler, no offline cache).
+- `server/server.js` + `Dockerfile` + `docker-compose.yml`: single Node container, zero dependencies. It serves the app files (baked into the image under `/app/www`), proxies `/api/` to `FRESHRSS_URL` (so the app stays same-origin with no code change) and runs the push notifier under `/push/` (Web Push encryption and VAPID via `node:crypto`; keys and subscriptions in `/data`). `/healthz` for the healthcheck. `.dockerignore` is a whitelist: add new app files there, in the `Dockerfile` and in `deploy.sh`.
+- `deploy.sh`: rsyncs the build context, `docker-compose.yml` and `.env` over SSH, then runs `docker compose up -d --build`. Configured by `deploy.env` (git-ignored, see `deploy.env.example`).
+- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v65). **Bump it on every change**: it is how to check which build a device loaded.
 
 ## Deployment
-- The app must be served from the same origin as FreshRSS's `/api/greader.php` (it builds API URLs from `location.origin`). Either drop the files in FreshRSS's `p/` folder, or use the `server/` container, which proxies `/api/`.
+- The app must be served from the same origin as FreshRSS's `/api/greader.php` (it builds API URLs from `location.origin`). Either use the Docker container, which proxies `/api/`, or drop the files in FreshRSS's `p/` folder (no notifications then).
 - Login uses the FreshRSS **API password** (not the account password). The page stores the returned Auth token in `localStorage.auth`.
 
 ## API usage (all under `/api/greader.php/reader/api/0/`)
@@ -47,6 +48,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
   - Vibration at thresholds. Chrome blocks `navigator.vibrate` until the first tap after a reload (browser rule), and it is silent in the phone's silent mode. The progress bar thickens as a visual cue.
 - Article toolbar (icons only): star, open in browser, share (Web Share API), labels popup. The title is also a link to the original.
 - Options page (hash `#options`, gear icon), stored in `localStorage.opts`: "Mark as read when scrolling" toggle, plus Top/Bottom segmented choices (`.seg`) for the list toolbar (`opts.listBar`, class `html.hdb` when bottom) and the article toolbar (`opts.artBar`, class `html.tbt` when top). Add new options there.
+- Notifications (option off by default, interval 5 min to 3 h): `pushOn()` registers `sw.js`, subscribes with the server's VAPID key (`GET push/key`) and posts subscription + FreshRSS token + interval to `push/subscribe` (also on every app start). The notifier checks `stream/items/ids` per subscription; "new" = id greater than the largest id seen (FreshRSS ids grow with insertion time); first check only sets the baseline. Counts and titles accumulate until the app posts `push/seen` (on every visibility change). `sw.js` shows nothing if an app window is visible. Tag `unread` replaces the previous notification.
 - List toolbar at the bottom: `#hd` gets `order:9` + `sticky bottom`; the observer rootMargin, `#sync` sticky offset and `seenLimit()` account for it.
 - Two-column layout at 900px and wider: list on the left (scrolls in `#left`), article pane on the right (`#art`), draggable splitter (`--lw`, saved in `localStorage.lw`, double-click resets). Selecting an article uses `history.replaceState` + `route()`; nothing is selected after a refresh. Swipe gestures on cards are touch-only.
 - Loading indicator: thin animated bar at the top plus a spinning refresh icon.

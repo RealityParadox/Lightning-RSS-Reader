@@ -1,0 +1,20 @@
+# Lightning RSS Reader: one container serving the app, proxying the FreshRSS API and sending push notifications.
+# Usage: copy .env.example to .env, set FRESHRSS_URL, then: docker compose up -d --build
+services:
+  reader:
+    build: .
+    image: lightning-rss-reader
+    container_name: lightning-reader
+    restart: unless-stopped
+    ports:
+      - "8095:3000"   # point your HTTPS reverse proxy at http://<host-ip>:8095
+    environment:
+      # FreshRSS address as seen from this container, no trailing slash
+      FRESHRSS_URL: ${FRESHRSS_URL:?set FRESHRSS_URL in .env}
+      NOTIFICATIONS: ${NOTIFICATIONS:-true}
+      VAPID_SUBJECT: ${VAPID_SUBJECT:-mailto:admin@example.com}
+    volumes:
+      # VAPID keys and push subscriptions (holds FreshRSS API tokens: keep it private).
+      # Must be writable by the container user (uid 1000 by default, see "user" below).
+      - ./data:/data
+    # user: "99:100"   # e.g. Unraid's nobody:users; the data folder must belong to this user

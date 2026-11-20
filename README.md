@@ -3,7 +3,7 @@
 A fast, mobile-first reader for [FreshRSS](https://freshrss.org), built as a single HTML file.
 It talks to your FreshRSS instance through its Google Reader (GReader) API and installs as a PWA on Android or desktop.
 
-No build step, no framework, no dependencies: `index.html` holds all the HTML, CSS and JavaScript.
+No build step, no framework, no dependencies: `index.html` holds all the HTML, CSS and JavaScript (plus a tiny `sw.js` service worker for notifications).
 
 ## Features
 
@@ -16,6 +16,7 @@ No build step, no framework, no dependencies: `index.html` holds all the HTML, C
 - **Article view** with star, open in browser, share and labels.
 - **Two-column layout** on wide screens, with a resizable splitter.
 - **Options**: mark as read on scroll, list toolbar at the top or bottom, article toolbar at the top or bottom.
+- **Push notifications** (optional, standalone container only): the server checks FreshRSS every few minutes (configurable) and notifies you of new unread articles, even when the app is closed.
 - Read marks are queued and synced in the background; articles read on another device are greyed out when you come back to the app.
 
 ## Requirements
@@ -28,27 +29,38 @@ No build step, no framework, no dependencies: `index.html` holds all the HTML, C
 
 The browser must see the reader and FreshRSS's `/api/greader.php` on **the same origin** (the app builds API URLs from `location.origin`, and there is no CORS support). Two ways to do that:
 
-### Option 1: inside FreshRSS
+### Option 1: Docker container (recommended)
 
-Copy `index.html`, `app.webmanifest`, `app-192.png` and `app-512.png` into a folder under FreshRSS's public `p/` directory, for example `p/reader/`, and open `https://your-freshrss/reader/`.
+A single container (Node.js, no dependencies) serves the app, proxies `/api/` to FreshRSS and sends the push notifications. It can live on its own (sub)domain and is independent of your FreshRSS install.
+
+1. Clone this repository on your Docker host.
+2. Copy `.env.example` to `.env` and set `FRESHRSS_URL` to your FreshRSS address as seen from the container, without a trailing slash (for example `http://192.168.1.10:8080`, or FreshRSS's public URL).
+3. Run `docker compose up -d --build`. The reader listens on port `8095`.
+4. Point your reverse proxy (with HTTPS) at it. HTTPS is required for the PWA to install and for notifications.
+
+| Variable | Default | |
+|---|---|---|
+| `FRESHRSS_URL` | (required) | FreshRSS base URL as seen from the container |
+| `NOTIFICATIONS` | `true` | Set to `false` to disable push notifications |
+| `VAPID_SUBJECT` | `mailto:admin@example.com` | Contact address sent to push services |
+| `PORT` | `3000` | Port inside the container |
+
+The container keeps its VAPID keys and the push subscriptions in `/data` (`./data` with the compose file). Subscriptions include the FreshRSS API token of each subscribed device, so keep that folder private. It must be writable by the container user (uid 1000 by default, configurable with `user:` in the compose file).
+
+### Option 2: inside FreshRSS
+
+Copy `index.html`, `sw.js`, `app.webmanifest`, `app-192.png` and `app-512.png` into a folder under FreshRSS's public `p/` directory, for example `p/reader/`, and open `https://your-freshrss/reader/`.
 
 With the LinuxServer.io FreshRSS image, you can bind-mount a folder to `/app/www/p/reader`.
 
-### Option 2: standalone container (recommended)
+Notifications are not available with this option.
 
-The `server/` folder contains a small nginx container that serves the app and proxies `/api/` to FreshRSS. It can live on its own (sub)domain and is independent of your FreshRSS install.
+### Deploying from a development machine
 
-1. Copy `server/` to your Docker host and the four app files into `server/www/`.
-2. Copy `server/.env.example` to `server/.env` and set `FRESHRSS_UPSTREAM` to your FreshRSS address as seen from the container, without a trailing slash (for example `http://192.168.1.10:8080`, or FreshRSS's public URL).
-3. Run `docker compose up -d`. The reader listens on port `8095`.
-4. Point your reverse proxy (with HTTPS) at it. HTTPS is required for the PWA to install.
+`deploy.sh` copies the sources to a Docker host over SSH, then rebuilds and restarts the container:
 
-### Deploying updates
-
-`deploy.sh` pushes the files over SSH with rsync:
-
-1. Copy `deploy.env.example` to `deploy.env` and set `HOST` (SSH target, key login) and `BASE` (the folder holding `docker-compose.yml`).
-2. `./deploy.sh` updates the app files, `./deploy.sh server` also updates the container config and recreates it.
+1. Copy `deploy.env.example` to `deploy.env` and set `HOST` (SSH target, key login) and `BASE` (folder on the host).
+2. Create `.env` locally (it is copied too), then run `./deploy.sh`.
 
 The version badge in the top bar (`vNN`) shows which build a device has loaded.
 
@@ -56,6 +68,7 @@ The version badge in the top bar (`vNN`) shows which build a device has loaded.
 
 - Search only covers articles already loaded in the list: the GReader API has no text search.
 - The login token is stored in the browser's `localStorage`.
+- Notifications go through the browser vendor's push service (Firebase Cloud Messaging for Chrome-based browsers). The message is end-to-end encrypted and only contains the number of new articles and up to five titles.
 - Article HTML is sanitized before display (scripts, iframes, forms, inline styles and event handlers are removed).
 
 ## License

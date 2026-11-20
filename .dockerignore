@@ -1,0 +1,9 @@
+# whitelist: only what the image needs (keeps .env, data/ and other local files out of the build context)
+*
+!Dockerfile
+!server/server.js
+!index.html
+!sw.js
+!app.webmanifest
+!app-192.png
+!app-512.png
