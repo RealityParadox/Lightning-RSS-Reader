@@ -15,7 +15,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 - `sw.js`: service worker, push notifications only (no fetch handler, no offline cache).
 - `server/server.js` + `Dockerfile` + `docker-compose.yml`: single Node container, zero dependencies. It serves the app files (baked into the image under `/app/www`), proxies `/api/` to `FRESHRSS_URL` (so the app stays same-origin with no code change) and runs the push notifier under `/push/` (Web Push encryption and VAPID via `node:crypto`; keys and subscriptions in `/data`). `/healthz` for the healthcheck. `.dockerignore` is a whitelist: add new app files there, in the `Dockerfile` and in `deploy.sh`.
 - `deploy.sh`: rsyncs the build context, `docker-compose.yml` and `.env` over SSH, then runs `docker compose up -d --build`. Configured by `deploy.env` (git-ignored, see `deploy.env.example`).
-- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v65). **Bump it on every change**: it is how to check which build a device loaded.
+- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v66). **Bump it on every change**: it is how to check which build a device loaded.
 
 ## Deployment
 - The app must be served from the same origin as FreshRSS's `/api/greader.php` (it builds API URLs from `location.origin`). Either use the Docker container, which proxies `/api/`, or drop the files in FreshRSS's `p/` folder (no notifications then).
@@ -67,7 +67,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 - **`100dvh` was unreliable** in the Vivaldi PWA: use `html{height:100%}` and the `--vh` variable set from `innerHeight`.
 - Article HTML from feeds can be broken or styled. It is sanitized with a `<template>`, inline styles and `on*` attributes are stripped, and `#art .in *` forces `position:static` and no floats. If a `<picture><source>` image fails, the sources are removed so the `<img>` fallback loads.
 - `markRead` must not rely on `pending` for counting: `pending` is emptied after each successful flush.
-- Mouse drags on cards must not trigger swipes (pointer events ignore `pointerType=='mouse'`).
+- **Swipes in Chromium**: on a diagonal move Chromium starts the vertical scroll in the first pixels (and fires `pointercancel` on pointer events), so swipes were lost. List and article swipes use touch events with a non-passive `touchmove`: the direction is decided at once (horizontal if `|dx|>|dy|`) and horizontal-ish moves call `preventDefault()` before the browser commits to scrolling; if `e.cancelable` is false the page is already scrolling and the swipe is dropped. Touch events also keep mouse drags from swiping.
 
 ## Testing
 - No test suite. Syntax check after edits: extract the `<script>` content to a file and run `node --check` on it.
