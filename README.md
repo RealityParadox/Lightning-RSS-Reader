@@ -33,10 +33,18 @@ The browser must see the reader and FreshRSS's `/api/greader.php` on **the same 
 
 A single container (Node.js, no dependencies) serves the app, proxies `/api/` to FreshRSS and sends the push notifications. It can live on its own (sub)domain and is independent of your FreshRSS install.
 
-1. Clone this repository on your Docker host.
-2. Copy `.env.example` to `.env` and set `FRESHRSS_URL` to your FreshRSS address as seen from the container, without a trailing slash (for example `http://192.168.1.10:8080`, or FreshRSS's public URL).
-3. Run `docker compose up -d --build`. The reader listens on port `8095`.
-4. Point your reverse proxy (with HTTPS) at it. HTTPS is required for the PWA to install and for notifications.
+The image is published on GitHub Container Registry: `ghcr.io/realityparadox/lightning-rss-reader` (`latest` follows the main branch, version tags are also published), for amd64 and arm64.
+
+```bash
+docker run -d --name lightning-rss-reader -p 8095:3000 \
+  -e FRESHRSS_URL=http://192.168.1.10:8080 \
+  -v /path/to/data:/data \
+  ghcr.io/realityparadox/lightning-rss-reader:latest
+```
+
+Set `FRESHRSS_URL` to your FreshRSS address as seen from the container, without a trailing slash (for example `http://192.168.1.10:8080`, or FreshRSS's public URL). The reader then listens on port `8095`: point your reverse proxy (with HTTPS) at it. HTTPS is required for the PWA to install and for notifications.
+
+To build the image yourself instead, clone this repository, copy `.env.example` to `.env`, set `FRESHRSS_URL` and run `docker compose up -d --build`.
 
 | Variable | Default | |
 |---|---|---|
@@ -46,6 +54,16 @@ A single container (Node.js, no dependencies) serves the app, proxies `/api/` to
 | `PORT` | `3000` | Port inside the container |
 
 The container keeps its VAPID keys and the push subscriptions in `/data` (`./data` with the compose file). Subscriptions include the FreshRSS API token of each subscribed device, so keep that folder private. It must be writable by the container user (uid 1000 by default, configurable with `user:` in the compose file).
+
+#### Unraid
+
+`unraid/lightning-rss-reader.xml` is a Docker template for Unraid's web UI:
+
+1. Copy it to `/boot/config/plugins/dockerMan/templates-user/my-lightning-rss-reader.xml` on the server.
+2. In *Docker → Add Container*, pick `lightning-rss-reader` in the *Template* list, set *FreshRSS URL*, then *Apply*.
+3. The data folder (`/mnt/user/appdata/lightning-rss-reader` by default) must be writable by `nobody:users`: `chown -R 99:100 /mnt/user/appdata/lightning-rss-reader`.
+
+Updates: *Check for updates*, then *Update*, in the Docker tab.
 
 ### Option 2: inside FreshRSS
 

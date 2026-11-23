@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>lightning-rss-reader</Name>
+  <Repository>ghcr.io/realityparadox/lightning-rss-reader:latest</Repository>
+  <Registry>https://github.com/RealityParadox/Lightning-RSS-Reader/pkgs/container/lightning-rss-reader</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/RealityParadox/Lightning-RSS-Reader/issues</Support>
+  <Project>https://github.com/RealityParadox/Lightning-RSS-Reader</Project>
+  <Overview>Fast, mobile-first reader for FreshRSS (Google Reader API), installable as a PWA. The container serves the app, proxies the FreshRSS API and sends push notifications for new articles. Put it behind an HTTPS reverse proxy: HTTPS is required to install the PWA and for notifications.</Overview>
+  <Category>Productivity: Tools:</Category>
+  <WebUI>http://[IP]:[PORT:3000]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/RealityParadox/Lightning-RSS-Reader/main/unraid/lightning-rss-reader.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/RealityParadox/Lightning-RSS-Reader/main/app-512.png</Icon>
+  <ExtraParams>--user 99:100</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires>A FreshRSS instance with the API enabled, and an API password set in your FreshRSS profile.</Requires>
+  <Config Name="Web UI port" Target="3000" Default="8095" Mode="tcp" Description="Port of the reader on the host. Point your HTTPS reverse proxy at it." Type="Port" Display="always" Required="true" Mask="false">8095</Config>
+  <Config Name="FreshRSS URL" Target="FRESHRSS_URL" Default="" Mode="" Description="FreshRSS address as seen from this container, without a trailing slash. For example http://192.168.1.10:8080 (host IP and FreshRSS port) or https://freshrss.example.com." Type="Variable" Display="always" Required="true" Mask="false"></Config>
+  <Config Name="Notifications" Target="NOTIFICATIONS" Default="true|false" Mode="" Description="Push notifications for new unread articles." Type="Variable" Display="always" Required="false" Mask="false">true</Config>
+  <Config Name="VAPID subject" Target="VAPID_SUBJECT" Default="mailto:admin@example.com" Mode="" Description="Contact address sent to push services (Google, Mozilla...) with notifications." Type="Variable" Display="advanced" Required="false" Mask="false">mailto:admin@example.com</Config>
+  <Config Name="Data" Target="/data" Default="/mnt/user/appdata/lightning-rss-reader" Mode="rw" Description="Push notification keys and subscriptions (they include FreshRSS API tokens: keep this folder private). Must be writable by nobody:users (99:100)." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/lightning-rss-reader</Config>
+</Container>
