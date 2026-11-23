@@ -15,7 +15,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 - `sw.js`: service worker, push notifications only (no fetch handler, no offline cache).
 - `server/server.js` + `Dockerfile` + `docker-compose.yml`: single Node container, zero dependencies. It serves the app files (baked into the image under `/app/www`), proxies `/api/` to `FRESHRSS_URL` (so the app stays same-origin with no code change) and runs the push notifier under `/push/` (Web Push encryption and VAPID via `node:crypto`; keys and subscriptions in `/data`). `/healthz` for the healthcheck. `.dockerignore` is a whitelist: add new app files there, in the `Dockerfile` and in `deploy.sh`.
 - `deploy.sh`: rsyncs the build context, `docker-compose.yml` and `.env` over SSH, then runs `docker compose up -d --build`. Configured by `deploy.env` (git-ignored, see `deploy.env.example`).
-- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v69). **Bump it on every change**: it is how to check which build a device loaded.
+- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v70). **Bump it on every change**: it is how to check which build a device loaded.
 
 ## Deployment
 - The app must be served from the same origin as FreshRSS's `/api/greader.php` (it builds API URLs from `location.origin`). Either use the Docker container, which proxies `/api/`, or drop the files in FreshRSS's `p/` folder (no notifications then).
@@ -43,7 +43,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 - Search/filter popup: text (accent/case-insensitive, all words must match) plus categories/labels (any selected). Categories expand (chevron) to individual feeds from `subscription/list`; a fully checked category is stored in `filt.tags`, a partial one as feed ids in `filt.feeds` (matched on `origin.streamId`). The filter persists across refreshes. Hidden items are never marked read.
 - Touch gestures:
   - List: swipe card right = toggle star; left = open the labels popup; pull up at the bottom = refresh.
-  - Article: swipe left/right = next/previous (history is replaced, so Back still returns to the list); pull up at the end or pull down at the top = close.
+  - Article: swipe left/right = next/previous (history is replaced, so Back still returns to the list); pull up at the end or pull down at the top = close. While pulling up at the end or down at the top, the content follows the finger (`liftArt()`, damped `translateY` on `#art .in`, reset by `dropArt()`).
   - All gestures are ignored while pinch-zoomed.
   - Vibration at thresholds. Chrome blocks `navigator.vibrate` until the first tap after a reload (browser rule), and it is silent in the phone's silent mode. The progress bar thickens as a visual cue.
 - Article toolbar (icons only): star, open in browser, share (Web Share API), labels popup. The title is also a link to the original.
