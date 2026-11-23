@@ -7,17 +7,32 @@ No build step, no framework, no dependencies: `index.html` holds all the HTML, C
 
 ## Features
 
-- **Three views**: unread (with a count badge), read and starred.
-- **Mark as read while scrolling** (optional), plus a "mark all seen and refresh" button at the end of the list.
-- **Touch gestures**:
-  - list: swipe a card right to star it, left to edit its labels, pull up at the bottom to refresh;
-  - article: swipe left/right for the next/previous article, pull down at the top or up at the end to close.
-- **Search and filter**: text search on loaded articles (accent and case insensitive), plus categories, individual feeds and labels.
-- **Article view** with star, open in browser, share and labels.
-- **Two-column layout** on wide screens, with a resizable splitter.
-- **Options**: mark as read on scroll, list toolbar at the top or bottom, article toolbar at the top or bottom.
-- **Push notifications** (optional, standalone container only): the server checks FreshRSS every few minutes (configurable) and notifies you of new unread articles, even when the app is closed.
-- Read marks are queued and synced in the background; articles read on another device are greyed out when you come back to the app.
+**Reading**
+- Three views: unread (with a count badge), read and starred.
+- Article cards with thumbnail, title, excerpt, source and date; full article view with the original link.
+- Optional *mark as read while scrolling*, plus a button at the end of the list to mark everything seen and refresh.
+- Read marks are queued and synced in the background. When you come back to the app, it refreshes if you were at the top of the list ("No new articles" confirms it when nothing changed); otherwise it greys out articles read on another device and offers a tappable "N new articles" toast instead of reshuffling the list.
+- Search and filter: text search on loaded articles (accent and case insensitive), plus categories, individual feeds and labels.
+- Two-column layout on wide screens, with a resizable splitter.
+- Unread count in the page title (Vivaldi shows it as a tab badge) and on the installed app icon where the browser supports it (Windows, macOS, ChromeOS).
+
+**Touch gestures**, each one configurable (or turned off) in the options:
+
+| Gesture | Default action | Other actions |
+|---|---|---|
+| Swipe a card right / left in the list | Star / Labels | Open in browser, Share |
+| Pull up at the end of the list | Mark all as read and refresh | Refresh |
+| Pull down at the top of the list | Refresh | Mark all as read and refresh |
+| Swipe left / right on an article | Next / Previous article | Close, Star, Labels, Open, Share |
+| Pull up at the end / down at the top of an article | Close | Next, Previous, Star, Labels, Open, Share |
+
+Gestures give visual feedback (the content follows the finger, progress bar) and a short vibration at the threshold.
+
+**Options**, grouped in categories:
+- *Interface*: list toolbar and article toolbar at the top or bottom; article toolbar buttons (close, star, open, share, labels) turned on or off and reordered.
+- *Behaviour*: mark as read while scrolling.
+- *Gestures*: the action of each gesture.
+- *Notifications*: push notifications for new unread articles, checked by the server every 5 minutes to 3 hours, even when the app is closed (Docker container only).
 
 ## Requirements
 
@@ -27,7 +42,7 @@ No build step, no framework, no dependencies: `index.html` holds all the HTML, C
 
 ## Installation
 
-The browser must see the reader and FreshRSS's `/api/greader.php` on **the same origin** (the app builds API URLs from `location.origin`, and there is no CORS support). Two ways to do that:
+The reader calls the FreshRSS API on its own site (`/api/greader.php`), so it must be served from the same origin as that API. Two ways to do that:
 
 ### Option 1: Docker container (recommended)
 
@@ -59,11 +74,15 @@ The container keeps its VAPID keys and the push subscriptions in `/data` (`./dat
 
 `unraid/lightning-rss-reader.xml` is a Docker template for Unraid's web UI:
 
-1. Copy it to `/boot/config/plugins/dockerMan/templates-user/my-lightning-rss-reader.xml` on the server.
+1. Copy it to the server:
+   ```bash
+   wget -O /boot/config/plugins/dockerMan/templates-user/my-lightning-rss-reader.xml \
+     https://raw.githubusercontent.com/RealityParadox/Lightning-RSS-Reader/main/unraid/lightning-rss-reader.xml
+   ```
 2. In *Docker → Add Container*, pick `lightning-rss-reader` in the *Template* list, set *FreshRSS URL*, then *Apply*.
 3. The data folder (`/mnt/user/appdata/lightning-rss-reader` by default) must be writable by `nobody:users`: `chown -R 99:100 /mnt/user/appdata/lightning-rss-reader`.
 
-Updates: *Check for updates*, then *Update*, in the Docker tab.
+Updates: *Check for updates*, then *Update*, in the Docker tab. Turn on *Autostart* so the container starts with the server.
 
 ### Option 2: inside FreshRSS
 
@@ -86,6 +105,7 @@ The version badge in the top bar (`vNN`) shows which build a device has loaded.
 
 - Search only covers articles already loaded in the list: the GReader API has no text search.
 - The login token is stored in the browser's `localStorage`.
+- Each device signs in separately; options are stored per browser.
 - Notifications go through the browser vendor's push service (Firebase Cloud Messaging for Chrome-based browsers). The message is end-to-end encrypted and only contains the number of new articles and up to five titles.
 - Article HTML is sanitized before display (scripts, iframes, forms, inline styles and event handlers are removed).
 
