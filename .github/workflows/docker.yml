@@ -7,6 +7,16 @@ on:
   push:
     branches: [main]
     tags: ['v*.*.*']
+    # only rebuild when a file that ends up in the image changes (path filters are ignored for tag pushes)
+    paths:
+      - Dockerfile
+      - .dockerignore
+      - server/**
+      - index.html
+      - sw.js
+      - app.webmanifest
+      - app-*.png
+      - .github/workflows/docker.yml
   workflow_dispatch:
 
 permissions:
