@@ -15,7 +15,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 - `sw.js`: service worker, push notifications only (no fetch handler, no offline cache).
 - `server/server.js` + `Dockerfile` + `docker-compose.yml`: single Node container, zero dependencies. It serves the app files (baked into the image under `/app/www`), proxies `/api/` to `FRESHRSS_URL` (so the app stays same-origin with no code change) and runs the push notifier under `/push/` (Web Push encryption and VAPID via `node:crypto`; keys and subscriptions in `/data`). `/healthz` for the healthcheck. `.dockerignore` is a whitelist: add new app files there, in the `Dockerfile` and in `deploy.sh`.
 - `deploy.sh`: rsyncs the build context, `docker-compose.yml` and `.env` over SSH, then runs `docker compose up -d --build`. Configured by `deploy.env` (git-ignored, see `deploy.env.example`).
-- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v70). **Bump it on every change**: it is how to check which build a device loaded.
+- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v72). **Bump it on every change**: it is how to check which build a device loaded.
 
 ## Deployment
 - The app must be served from the same origin as FreshRSS's `/api/greader.php` (it builds API URLs from `location.origin`). Either use the Docker container, which proxies `/api/`, or drop the files in FreshRSS's `p/` folder (no notifications then).
@@ -39,6 +39,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 - Unread count = cards without `.read` in the DOM (not derived from `pending`; that caused a bug).
 - End of list: an empty spacer of about one screen, then a button that is `position:sticky` (appears under the last article, then pins to the bottom of the screen). Tap or pull-up there = mark seen + sync + refresh (`refresh(true)`).
 - Top-bar refresh icon = `refresh(false)`: sync and reload without marking the visible list as read.
+- On app start and on returning to the app (`refresh(true,true)`, "auto"): a "No new articles" toast confirms the refresh when every fetched unread item was already in the previous list (on a cold start: when there are no unread items).
 - On returning to the app: refresh if the list is empty, all read, or at the top; otherwise `softSync()` greys articles read elsewhere without touching the list or scroll position. Skipped in non-unread views and if the last sync was under 10 s ago.
 - Search/filter popup: text (accent/case-insensitive, all words must match) plus categories/labels (any selected). Categories expand (chevron) to individual feeds from `subscription/list`; a fully checked category is stored in `filt.tags`, a partial one as feed ids in `filt.feeds` (matched on `origin.streamId`). The filter persists across refreshes. Hidden items are never marked read.
 - Touch gestures:
