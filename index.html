@@ -74,6 +74,17 @@ body{display:flex;flex-direction:column;min-height:100%}
 #tb button,#tb a{flex:1;padding:16px 0;border:0;background:none;color:var(--ink);display:flex;justify-content:center}
 #tb svg{display:block;width:24px;height:24px}
 #tb button.on{color:var(--acc)}
+/* buttons turned off in Options > Interface */
+#tb .off{display:none}
+html.tbt.notb #art .in{padding-top:calc(18px + env(safe-area-inset-top,0px))}
+/* toolbar buttons editor (options) */
+.tbrow{display:flex;align-items:center;gap:6px;padding:8px 0;border-bottom:1px solid var(--line)}
+.tbrow label{flex:1;display:flex;align-items:center;gap:12px;min-width:0}
+.tbrow label svg{flex:none;width:22px;height:22px;color:var(--ink)}
+.tbrow label .tgl{order:9;margin-left:auto}
+.tbrow button{flex:none;background:none;border:0;padding:6px;color:var(--acc)}
+.tbrow button:disabled{color:var(--line)}
+.tbrow button svg{display:block;width:24px;height:24px}
 #sheet{position:fixed;inset:0;z-index:40;display:none}
 #fsheet{position:fixed;inset:0;z-index:40;display:none}
 #sheet.on{display:block}
@@ -197,7 +208,7 @@ html.tbt #art .in{padding-top:calc(18px + 57px + env(safe-area-inset-top,0px))}
   <input id="p" type="password" placeholder="API password" autocomplete="current-password">
   <button>Sign in</button>
 </form>
-<div id="left"><header id="hd" hidden><div id="views"><button id="vu" class="vb on" aria-label="Unread"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="count" hidden></span></button><button id="vr" class="vb" aria-label="Read"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM12 13L3.74 7.84 12 3l8.26 4.84L12 13z"/></svg></button><button id="vs" class="vb" aria-label="Starred"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button></div><small id="ver">v75</small><button class="ic" id="srch" aria-label="Search and filter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button><button class="ic" id="top" aria-label="Refresh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button class="ic" id="gear" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button></header>
+<div id="left"><header id="hd" hidden><div id="views"><button id="vu" class="vb on" aria-label="Unread"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="count" hidden></span></button><button id="vr" class="vb" aria-label="Read"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM12 13L3.74 7.84 12 3l8.26 4.84L12 13z"/></svg></button><button id="vs" class="vb" aria-label="Starred"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button></div><small id="ver">v76</small><button class="ic" id="srch" aria-label="Search and filter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button><button class="ic" id="top" aria-label="Refresh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button class="ic" id="gear" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button></header>
 <main id="list" hidden></main>
 <div id="end" hidden>
   <div id="sp"></div>
@@ -221,6 +232,8 @@ html.tbt #art .in{padding-top:calc(18px + 57px + env(safe-area-inset-top,0px))}
       <section data-c="interface"><h2>Interface</h2>
         <div class="opt"><span><b>List toolbar</b><small>Position of the bar with the views, search, refresh and options.</small></span><div class="seg" data-o="listBar"><button data-v="top">Top</button><button data-v="bottom">Bottom</button></div></div>
         <div class="opt"><span><b>Article toolbar</b><small>Position of the bar with star, open, share and labels.</small></span><div class="seg" data-o="artBar"><button data-v="top">Top</button><button data-v="bottom">Bottom</button></div></div>
+        <div class="opt"><span><b>Article toolbar buttons</b><small>Turn buttons on or off and change their order.</small></span></div>
+        <div id="otb"></div>
       </section>
       <section data-c="behaviour"><h2>Behaviour</h2>
         <label class="opt"><span><b>Mark as read when scrolling</b><small>Articles that scroll past the top of the screen are marked as read. Otherwise, they are only marked when opened or with the sync button.</small></span><input type="checkbox" class="tgl" id="o-scroll"></label>
@@ -234,7 +247,7 @@ html.tbt #art .in{padding-top:calc(18px + 57px + env(safe-area-inset-top,0px))}
   </div>
 </div>
 <div id="art"><div class="in"></div>
-  <div id="tb"><button id="star" aria-label="Star"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path id="starp" d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/></svg></button><a id="open" target="_blank" rel="noopener" aria-label="Open in browser"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></a><button id="share" aria-label="Share"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg></button><button id="lab" aria-label="Labels"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path id="labp" d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16zM16 17H5V7h11l3.55 5L16 17z"/></svg></button></div>
+  <div id="tb"><button id="tbclose" aria-label="Close"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button><button id="star" aria-label="Star"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path id="starp" d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/></svg></button><a id="open" target="_blank" rel="noopener" aria-label="Open in browser"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></a><button id="share" aria-label="Share"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg></button><button id="lab" aria-label="Labels"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path id="labp" d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16zM16 17H5V7h11l3.55 5L16 17z"/></svg></button></div>
 </div>
 <div id="sheet"><div class="bk"></div>
   <div class="pn"><b>Labels</b><div id="labs"></div><button id="close">Close</button></div>
@@ -760,7 +773,7 @@ $('#fsheet .bk').onclick=closeFilter;
 $('#fq').addEventListener('keydown',e=>{if(e.key=='Enter'){e.preventDefault();confirmFilter()}else if(e.key=='Escape')closeFilter()});
 
 /* options (stored in the browser) */
-let opts={markScroll:true,listBar:'top',artBar:'bottom',notify:false,notifyMin:10,
+let opts={tbOrder:['close','star','open','share','lab'],tbOff:[],markScroll:true,listBar:'top',artBar:'bottom',notify:false,notifyMin:10,
   gCardRight:'star',gCardLeft:'labels',gListUp:'markRefresh',gListDown:'refresh',gArtUp:'close',gArtDown:'close',gArtLeft:'next',gArtRight:'prev'};
 try{opts={...opts,...JSON.parse(ls.opts||'{}')}}catch{}
 const saveOpts=()=>{ls.opts=JSON.stringify(opts)};
@@ -854,6 +867,36 @@ function cardAction(a,it){
   else if(a=='open')openItem(it);
   else if(a=='share')shareItem(it);
 }
+/* article toolbar buttons: order and on/off (Options > Interface) */
+const TBB={close:['tbclose','Close'],star:['star','Star'],open:['open','Open in browser'],share:['share','Share'],lab:['lab','Labels']};
+const UPI='M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z',DNI='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z';
+function applyTb(){
+  /* keep known buttons only, and append buttons added in later versions */
+  opts.tbOrder=opts.tbOrder.filter(k=>TBB[k]).concat(Object.keys(TBB).filter(k=>!opts.tbOrder.includes(k)));
+  const tb=$('#tb');
+  opts.tbOrder.forEach(k=>{const b=$('#'+TBB[k][0]);tb.append(b);b.classList.toggle('off',opts.tbOff.includes(k))});
+  const none=opts.tbOrder.every(k=>opts.tbOff.includes(k));
+  tb.hidden=none;document.documentElement.classList.toggle('notb',none);
+  const box=$('#otb');box.textContent='';
+  opts.tbOrder.forEach((k,i)=>{
+    const row=document.createElement('div'),l=document.createElement('label'),c=document.createElement('input'),t=document.createElement('span');
+    row.className='tbrow';c.type='checkbox';c.className='tgl';c.checked=!opts.tbOff.includes(k);t.textContent=TBB[k][1];
+    c.onchange=()=>{opts.tbOff=c.checked?opts.tbOff.filter(x=>x!=k):opts.tbOff.concat(k);saveOpts();applyTb()};
+    /* copy of the toolbar icon, without its ids (updateTb() looks up #starp / #labp) */
+    const ic=$('#'+TBB[k][0]+' svg').cloneNode(true);ic.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));
+    l.append(ic,t,c);row.append(l);
+    for(const [d,path,lbl] of [[-1,UPI,'Move up'],[1,DNI,'Move down']]){
+      const b=document.createElement('button');b.type='button';b.setAttribute('aria-label',lbl+': '+TBB[k][1]);
+      b.innerHTML='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="'+path+'"/></svg>';
+      b.disabled=!opts.tbOrder[i+d];
+      b.onclick=()=>{const o=opts.tbOrder;[o[i],o[i+d]]=[o[i+d],o[i]];saveOpts();applyTb()};
+      row.append(b);
+    }
+    box.append(row);
+  });
+}
+applyTb();
+$('#tbclose').onclick=()=>closeArticle();
 $('#gear').onclick=()=>{location.hash='#options'};
 /* options categories: #options = category list on phones (first category on wide screens), #options/<cat> = one category */
 const OCATS={interface:'Interface',behaviour:'Behaviour',gestures:'Gestures',notifications:'Notifications'};
