@@ -12,6 +12,7 @@
 :root{--bg:#eef1f4;--card:#fff;--ink:#14202b;--dim:#6b7a88;--acc:#0b7285;--line:#d9e0e6}
 @media(prefers-color-scheme:dark){:root{--bg:#0f1419;--card:#171e26;--ink:#e6edf3;--dim:#8b9aa8;--acc:#4cc9d8;--line:#26303a}}
 *{box-sizing:border-box}
+html{overscroll-behavior-y:contain}
 html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
 #hd{position:sticky;top:0;z-index:5;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:var(--bg);border-bottom:1px solid var(--line)}
 #views{display:flex;gap:4px}
@@ -35,10 +36,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 #list article{touch-action:pan-y;user-select:none;-webkit-user-select:none}
 #list article.starred b::before{content:'★ ';color:var(--acc)}
 #list article.sw{position:relative;box-shadow:-100vw 0 0 0 var(--acc)}
-#list article.sw::before{content:'★';position:absolute;left:-56px;top:50%;transform:translateY(-50%);font-size:26px;color:#fff;opacity:.55}
+#list article.sw::before{content:attr(data-lbl);position:absolute;right:100%;margin-right:14px;top:50%;transform:translateY(-50%);font:700 13px system-ui,sans-serif;color:#fff;opacity:.55;white-space:nowrap}
+#list article[data-lbl="★"]::before,#list article[data-lbl="★"]::after{font-size:26px;font-weight:400}
 #list article.sw.full::before{opacity:1}
 #list article.swl{position:relative;box-shadow:100vw 0 0 0 #5b6b7a}
-#list article.swl::after{content:'Labels';position:absolute;left:100%;margin-left:14px;top:50%;transform:translateY(-50%);font:700 13px system-ui,sans-serif;color:#fff;opacity:.55}
+#list article.swl::after{content:attr(data-lbl);white-space:nowrap;position:absolute;left:100%;margin-left:14px;top:50%;transform:translateY(-50%);font:700 13px system-ui,sans-serif;color:#fff;opacity:.55}
 #list article.swl.full::after{opacity:1}
 #sheet .pn>b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #fsheet .pn>b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -123,7 +125,7 @@ html.loading #top svg{animation:spin 1s linear infinite}
 .opt{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
 .opt b{display:block;font-size:16px}
 .opt small{display:block;color:var(--dim);margin-top:2px;line-height:1.35}
-.opt select{flex:none;font:inherit;font-size:15px;padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+.opt select{flex:none;max-width:55%;font:inherit;font-size:15px;padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
 .tgl{appearance:none;-webkit-appearance:none;flex:none;width:46px;height:28px;border-radius:14px;background:var(--line);position:relative;margin:0;transition:background .15s}
 .tgl::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .15s}
 .tgl:checked{background:var(--acc)}
@@ -195,12 +197,12 @@ html.tbt #art .in{padding-top:calc(18px + 57px + env(safe-area-inset-top,0px))}
   <input id="p" type="password" placeholder="API password" autocomplete="current-password">
   <button>Sign in</button>
 </form>
-<div id="left"><header id="hd" hidden><div id="views"><button id="vu" class="vb on" aria-label="Unread"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="count" hidden></span></button><button id="vr" class="vb" aria-label="Read"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM12 13L3.74 7.84 12 3l8.26 4.84L12 13z"/></svg></button><button id="vs" class="vb" aria-label="Starred"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button></div><small id="ver">v73</small><button class="ic" id="srch" aria-label="Search and filter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button><button class="ic" id="top" aria-label="Refresh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button class="ic" id="gear" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button></header>
+<div id="left"><header id="hd" hidden><div id="views"><button id="vu" class="vb on" aria-label="Unread"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="count" hidden></span></button><button id="vr" class="vb" aria-label="Read"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM12 13L3.74 7.84 12 3l8.26 4.84L12 13z"/></svg></button><button id="vs" class="vb" aria-label="Starred"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button></div><small id="ver">v75</small><button class="ic" id="srch" aria-label="Search and filter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button><button class="ic" id="top" aria-label="Refresh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button class="ic" id="gear" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button></header>
 <main id="list" hidden></main>
 <div id="end" hidden>
   <div id="sp"></div>
   <button id="sync" aria-label="Mark as read, sync and refresh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/></svg><span class="pl">+</span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg><span class="pl">+</span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button>
-  <p>Or pull up from the bottom of the list.</p>
+  <p id="endhint">Or pull up from the bottom of the list.</p>
 </div>
 </div>
 <div id="split"></div>
@@ -212,6 +214,7 @@ html.tbt #art .in{padding-top:calc(18px + 57px + env(safe-area-inset-top,0px))}
     <nav id="ocats">
       <a href="#options/interface" data-c="interface"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span>Interface<small>Toolbar positions</small></span><svg class="chev" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
       <a href="#options/behaviour" data-c="behaviour"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg><span>Behaviour<small>Marking articles as read</small></span><svg class="chev" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
+      <a href="#options/gestures" data-c="gestures"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg><span>Gestures<small>Pull and swipe actions</small></span><svg class="chev" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
       <a href="#options/notifications" data-c="notifications"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg><span>Notifications<small>New article alerts</small></span><svg class="chev" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
     </nav>
     <div class="obody">
@@ -222,6 +225,7 @@ html.tbt #art .in{padding-top:calc(18px + 57px + env(safe-area-inset-top,0px))}
       <section data-c="behaviour"><h2>Behaviour</h2>
         <label class="opt"><span><b>Mark as read when scrolling</b><small>Articles that scroll past the top of the screen are marked as read. Otherwise, they are only marked when opened or with the sync button.</small></span><input type="checkbox" class="tgl" id="o-scroll"></label>
       </section>
+      <section data-c="gestures"><h2>Gestures</h2><div id="ogest"></div></section>
       <section data-c="notifications"><h2>Notifications</h2>
         <label class="opt"><span><b>Enable notifications</b><small>Get notified of new unread articles while the app is in the background or closed. Requires the Docker container.</small></span><input type="checkbox" class="tgl" id="o-notif"></label>
         <div class="opt" id="o-ivrow"><span><b>Check every</b><small>How often the server looks for new articles.</small></span><select id="o-iv"><option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option><option value="30">30 min</option><option value="60">1 hour</option><option value="180">3 hours</option></select></div>
@@ -247,6 +251,24 @@ html.tbt #art .in{padding-top:calc(18px + 57px + env(safe-area-inset-top,0px))}
 const $=s=>document.querySelector(s),ls=localStorage;
 const R=location.origin+'/api/greader.php/reader/api/0/',READ='user/-/state/com.google/read';
 let auth=ls.auth||'',tok='',items=[],timer,busy=false,lastSync=0,view='unread',unreadN=0;
+/* configurable gestures (Options > Gestures): actions available for list gestures and for article gestures */
+const GACT={
+  card:{none:'Nothing',star:'Star / unstar',labels:'Labels',open:'Open in browser',share:'Share'},
+  list:{none:'Nothing',refresh:'Refresh',markRefresh:'Mark all as read and refresh'},
+  art:{none:'Nothing',close:'Close the article',next:'Next article',prev:'Previous article',star:'Star / unstar',labels:'Labels',open:'Open in browser',share:'Share'},
+};
+const GESTURES=[
+  ['gCardRight','card','Swipe an article right in the list'],
+  ['gCardLeft','card','Swipe an article left in the list'],
+  ['gListUp','list','Pull up at the end of the list'],
+  ['gListDown','list','Pull down at the top of the list'],
+  ['gArtUp','art','Pull up at the end of an article'],
+  ['gArtDown','art','Pull down at the top of an article'],
+  ['gArtLeft','art','Swipe left on an article'],
+  ['gArtRight','art','Swipe right on an article'],
+];
+/* touches that must not start a list pull (popups, options, the article pane in wide mode) */
+const NOPULL='#sheet,#fsheet,#opts,#art,#login';
 const pending=new Set(JSON.parse(ls.pending||'[]'));
 const save=()=>ls.pending=JSON.stringify([...pending]);
 const toast=t=>{const e=$('#toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2500)};
@@ -403,10 +425,13 @@ function updateTb(){
   const n=labels?labels.filter(l=>has(cur,l)).length:0;
   $('#labp').setAttribute('d',n?IC.labOn:IC.lab);$('#lab').classList.toggle('on',n>0);
 }
-$('#share').onclick=async()=>{
-  const u=cur&&cur.canonical&&cur.canonical[0]&&cur.canonical[0].href;if(!u)return;
+const itemUrl=it=>it&&it.canonical&&it.canonical[0]&&it.canonical[0].href;
+const openItem=it=>{const u=itemUrl(it);if(u)window.open(u,'_blank','noopener')};
+$('#share').onclick=()=>shareItem(cur);
+async function shareItem(it){
+  const u=itemUrl(it);if(!u)return;
   try{
-    if(navigator.share)await navigator.share({title:cur.title||'',url:u});
+    if(navigator.share)await navigator.share({title:it.title||'',url:u});
     else{await navigator.clipboard.writeText(u);toast('Link copied')}
   }catch(e){if(!e||e.name!='AbortError')toast('Sharing failed')}
 };
@@ -459,7 +484,8 @@ function route(){
   const body=document.createElement('div');body.innerHTML=clean((it.summary&&it.summary.content)||(it.content&&it.content.content)||'');
   /* if the chosen <source> (e.g. the 2x version) is broken, fall back to the <img> */
   body.querySelectorAll('picture img').forEach(im=>im.addEventListener('error',()=>im.parentNode.querySelectorAll('source').forEach(x=>x.remove()),{once:true}));
-  const hint=document.createElement('p');hint.className='hint';hint.textContent='Pull up to go back to the list';
+  const hint=document.createElement('p');hint.className='hint';
+  hint.textContent=opts.gArtUp=='close'?'Pull up to go back to the list':'Pull up: '+GACT.art[opts.gArtUp];hint.hidden=opts.gArtUp=='none';
   c.append(h,meta,body,hint);v.classList.add('on');v.scrollTop=0;
   updateTb();loadLabels().then(updateTb);
   if(!has(it,'user/-/state/com.google/read'))markRead(it.id,document.querySelector('#list article[data-i="'+m[1]+'"]'));
@@ -537,12 +563,34 @@ $('#hd').addEventListener('click',e=>{if(!e.target.closest('#top,.vb,#srch,#gear
 /* pull up from the bottom of the list */
 const atBottom=()=>{const e=SC();return e.scrollTop+e.clientHeight>=e.scrollHeight-2};
 let y0=null;
-addEventListener('touchstart',e=>{y0=view=='unread'&&!location.hash&&atBottom()&&!zoomed()?e.touches[0].clientY:null},{passive:true});
+addEventListener('touchstart',e=>{
+  y0=auth&&!location.hash&&opts.gListUp!='none'&&e.touches.length==1&&atBottom()&&!zoomed()&&!e.target.closest(NOPULL)?e.touches[0].clientY:null;
+},{passive:true});
 addEventListener('touchmove',e=>{if(y0!=null)pull(y0-e.touches[0].clientY)},{passive:true});
 addEventListener('touchend',e=>{
-  if(y0!=null&&y0-e.changedTouches[0].clientY>150)refresh();
-  y0=null;armed=false;$('#bar').style.width=0;
+  if(y0!=null&&y0-e.changedTouches[0].clientY>150)listAction(opts.gListUp);
+  y0=null;armed=false;$('#bar').style.width=0;$('#bar').classList.remove('full');
 });
+
+/* pull down at the top of the list (progress bar at the top, the list follows the finger) */
+let y3=null;
+addEventListener('touchstart',e=>{
+  y3=auth&&!location.hash&&opts.gListDown!='none'&&e.touches.length==1&&scrolledTop()&&!zoomed()&&!e.target.closest(NOPULL)?e.touches[0].clientY:null;
+},{passive:true});
+addEventListener('touchmove',e=>{
+  if(y3==null||(sw&&sw.lock))return;
+  const d=e.touches[0].clientY-y3,l=$('#list');
+  topBar(d);l.style.transition='none';l.style.transform=d>0?'translateY('+Math.min(d,250)*0.4+'px)':'';
+},{passive:true});
+const listDownEnd=e=>{
+  if(y3==null)return;
+  const go=e.type=='touchend'&&!(sw&&sw.lock)&&e.changedTouches[0].clientY-y3>150,l=$('#list');
+  y3=null;armed2=false;$('#tbar').style.width=0;$('#tbar').classList.remove('full');
+  if(l.style.transform){l.style.transition='transform .2s';l.style.transform=''}
+  if(go)listAction(opts.gListDown);
+};
+addEventListener('touchend',listDownEnd);
+addEventListener('touchcancel',listDownEnd);
 
 /* swipe a card: right = star, left = labels (vibrates at the threshold) */
 let sw=null,swiped=false;
@@ -563,7 +611,9 @@ L.addEventListener('touchmove',e=>{
     if(Math.abs(dy)>=Math.abs(dx)){if(Math.abs(dy)>8)sw=null;return}
     e.preventDefault();
     if(Math.abs(dx)<10)return;
-    sw.lock=true;sw.dir=dx>0?1:-1;
+    const act=dx>0?opts.gCardRight:opts.gCardLeft;
+    if(act=='none'){sw=null;return}   /* nothing assigned to this direction */
+    sw.lock=true;sw.dir=dx>0?1:-1;sw.act=act;sw.a.dataset.lbl=CARDLBL[act];
     sw.a.classList.add(sw.dir>0?'sw':'swl');sw.a.style.transition='none';
   }
   if(e.cancelable)e.preventDefault();
@@ -579,9 +629,9 @@ const swEnd=e=>{
   if(!g.lock)return;
   swiped=true;setTimeout(()=>swiped=false,400);
   g.a.style.transition='transform .2s';g.a.style.transform='';
-  setTimeout(()=>{g.a.classList.remove('sw','swl','full');g.a.style.transition=''},220);
+  setTimeout(()=>{g.a.classList.remove('sw','swl','full');g.a.style.transition='';delete g.a.dataset.lbl},220);
   const it=items[+g.a.dataset.i];
-  if(e.type=='touchend'&&g.full&&it){if(g.dir>0)change(it,STAR,!has(it,STAR));else openSheet(it)}
+  if(e.type=='touchend'&&g.full&&it)cardAction(g.act,it);
 };
 L.addEventListener('touchend',swEnd);
 L.addEventListener('touchcancel',swEnd);
@@ -600,7 +650,7 @@ const pull=d=>{
 let y1=null;
 const artEnd=()=>{const v=$('#art');return v.scrollTop+v.clientHeight>=v.scrollHeight-8};
 const zoomed=()=>window.visualViewport&&visualViewport.scale>1.01;
-$('#art').addEventListener('touchstart',e=>{y1=artEnd()&&!zoomed()?e.touches[0].clientY:null},{passive:true});
+$('#art').addEventListener('touchstart',e=>{y1=opts.gArtUp!='none'&&artEnd()&&!zoomed()?e.touches[0].clientY:null},{passive:true});
 /* the article content follows the finger (damped) while pulling up at the end or down at the top, as visual feedback;
    not during a horizontal swipe. d>0 moves it up, d<0 down */
 const liftArt=d=>{const el=inEl();el.style.transition='none';el.style.transform=d?'translateY('+(-Math.sign(d)*Math.min(Math.abs(d),250)*0.4)+'px)':''};
@@ -616,7 +666,7 @@ const pullEnd=e=>{
   const go=y1!=null&&!slock&&e.type=='touchend'&&y1-e.changedTouches[0].clientY>150;
   if(y1!=null&&!slock)dropArt();
   y1=null;armed=false;$('#bar').style.width=0;$('#bar').classList.remove('full');
-  if(go)closeArticle();
+  if(go)artAction(opts.gArtUp);
 };
 $('#art').addEventListener('touchend',pullEnd);
 $('#art').addEventListener('touchcancel',pullEnd);
@@ -710,7 +760,8 @@ $('#fsheet .bk').onclick=closeFilter;
 $('#fq').addEventListener('keydown',e=>{if(e.key=='Enter'){e.preventDefault();confirmFilter()}else if(e.key=='Escape')closeFilter()});
 
 /* options (stored in the browser) */
-let opts={markScroll:true,listBar:'top',artBar:'bottom',notify:false,notifyMin:10};
+let opts={markScroll:true,listBar:'top',artBar:'bottom',notify:false,notifyMin:10,
+  gCardRight:'star',gCardLeft:'labels',gListUp:'markRefresh',gListDown:'refresh',gArtUp:'close',gArtDown:'close',gArtLeft:'next',gArtRight:'prev'};
 try{opts={...opts,...JSON.parse(ls.opts||'{}')}}catch{}
 const saveOpts=()=>{ls.opts=JSON.stringify(opts)};
 $('#o-scroll').checked=opts.markScroll;
@@ -770,9 +821,42 @@ document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{
   /* the observer margin depends on the list toolbar position */
   makeIO();document.querySelectorAll('#list article').forEach(a=>io.observe(a));fitSpacer();
 });
+/* gestures options: one select per gesture, built from GESTURES / GACT */
+for(const [k,kind,label] of GESTURES){
+  const row=document.createElement('div'),sp=document.createElement('span'),b=document.createElement('b'),sel=document.createElement('select');
+  row.className='opt';b.textContent=label;sp.append(b);
+  for(const [v,t] of Object.entries(GACT[kind])){const o=document.createElement('option');o.value=v;o.textContent=t;sel.append(o)}
+  if(!GACT[kind][opts[k]])opts[k]=kind=='list'?'refresh':'none';
+  sel.value=opts[k];sel.onchange=()=>{opts[k]=sel.value;saveOpts();applyGestures()};
+  row.append(sp,sel);$('#ogest').append(row);
+}
+function applyGestures(){
+  const h=$('#endhint');h.hidden=opts.gListUp=='none';
+  h.textContent=opts.gListUp=='refresh'?'Pull up from the bottom of the list to refresh without marking as read.':'Or pull up from the bottom of the list.';
+}
+applyGestures();
+function listAction(a){if(a=='refresh')refresh(false);else if(a=='markRefresh')refresh(true)}
+function artAction(a){
+  if(a=='close')return closeArticle();
+  if(!cur)return;
+  if(a=='next')step(1);
+  else if(a=='prev')step(-1);
+  else if(a=='star'){const on=!has(cur,STAR);change(cur,STAR,on);toast(on?'Starred':'Star removed')}
+  else if(a=='labels')openSheet(cur);
+  else if(a=='open')openItem(cur);
+  else if(a=='share')shareItem(cur);
+}
+/* swipe on a list card: text shown in the revealed area, and the action on that article */
+const CARDLBL={star:'★',labels:'Labels',open:'Open',share:'Share'};
+function cardAction(a,it){
+  if(a=='star')change(it,STAR,!has(it,STAR));
+  else if(a=='labels')openSheet(it);
+  else if(a=='open')openItem(it);
+  else if(a=='share')shareItem(it);
+}
 $('#gear').onclick=()=>{location.hash='#options'};
 /* options categories: #options = category list on phones (first category on wide screens), #options/<cat> = one category */
-const OCATS={interface:'Interface',behaviour:'Behaviour',notifications:'Notifications'};
+const OCATS={interface:'Interface',behaviour:'Behaviour',gestures:'Gestures',notifications:'Notifications'};
 function routeOpts(){
   const m=location.hash.match(/^#options(?:\/(\w+))?$/),c=m&&OCATS[m[1]]?m[1]:'',w=wide(),shown=c||(w?'interface':'');
   $('#ocats').hidden=!w&&!!c;
@@ -801,7 +885,7 @@ const topBar=d=>{
   $('#tbar').classList.toggle('full',full);armed2=full;
 };
 $('#art').addEventListener('touchstart',e=>{
-  y2=$('#art').scrollTop<=0&&e.touches.length==1&&!(window.visualViewport&&visualViewport.scale>1.01)?e.touches[0].clientY:null;
+  y2=opts.gArtDown!='none'&&$('#art').scrollTop<=0&&e.touches.length==1&&!(window.visualViewport&&visualViewport.scale>1.01)?e.touches[0].clientY:null;
 },{passive:true});
 $('#art').addEventListener('touchmove',e=>{
   if(y2==null||slock)return;
@@ -813,7 +897,7 @@ const downEnd=e=>{
   const go=y2!=null&&!slock&&e.type=='touchend'&&e.changedTouches[0].clientY-y2>150;
   if(y2!=null&&!slock)dropArt();
   y2=null;armed2=false;$('#tbar').style.width=0;$('#tbar').classList.remove('full');
-  if(go)closeArticle();
+  if(go)artAction(opts.gArtDown);
 };
 $('#art').addEventListener('touchend',downEnd);
 $('#art').addEventListener('touchcancel',downEnd);
@@ -848,6 +932,7 @@ $('#art').addEventListener('touchmove',e=>{
     if(Math.abs(dy)>=Math.abs(dx)){if(Math.abs(dy)>10)sx=null;return}
     e.preventDefault();
     if(Math.abs(dx)<12)return;
+    if((dx<0?opts.gArtLeft:opts.gArtRight)=='none'){sx=null;return}   /* nothing assigned to this direction */
     slock=true;inEl().style.transition='none';
   }
   if(e.cancelable)e.preventDefault();
@@ -860,7 +945,7 @@ const swipeEnd=()=>{
   if(sx==null)return;
   const el=inEl();el.style.transition='transform .15s';el.style.transform='';
   const dx=sd,go=slock&&sfull;sx=null;slock=false;
-  if(go)step(dx<0?1:-1);
+  if(go)artAction(dx<0?opts.gArtLeft:opts.gArtRight);
 };
 $('#art').addEventListener('touchend',swipeEnd);
 $('#art').addEventListener('touchcancel',()=>{if(sx!=null){const el=inEl();el.style.transition='transform .15s';el.style.transform='';sx=null;slock=false}});
