@@ -17,7 +17,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 - `.github/workflows/docker.yml`: (only when files that go into the image change, keep its `paths` list in sync with the `Dockerfile`) builds the image for amd64 and arm64 and pushes it to `ghcr.io/<owner>/lightning-rss-reader` (`latest` on every push to main, `X.Y.Z` / `X.Y` / `X` on `vX.Y.Z` tags).
 - `unraid/lightning-rss-reader.xml`: Unraid Docker template for that image (port 3000 -> 8095, `FRESHRSS_URL`, `NOTIFICATIONS`, `VAPID_SUBJECT`, `/data`, `--user 99:100`). Keep it generic: no personal values.
 - `deploy.sh`: rsyncs the build context, `docker-compose.yml` and `.env` over SSH, then runs `docker compose up -d --build`. Configured by `deploy.env` (git-ignored, see `deploy.env.example`).
-- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v77). **Bump it on every change**: it is how to check which build a device loaded.
+- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v78). **Bump it on every change**: it is how to check which build a device loaded.
 
 ## Deployment
 - The app must be served from the same origin as FreshRSS's `/api/greader.php` (it builds API URLs from `location.origin`). Either use the Docker container, which proxies `/api/`, or drop the files in FreshRSS's `p/` folder (no notifications then).
@@ -41,7 +41,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 - Unread count = cards without `.read` in the DOM (not derived from `pending`; that caused a bug).
 - End of list: an empty spacer of about one screen, then a button that is `position:sticky` (appears under the last article, then pins to the bottom of the screen). Tap or pull-up there = mark seen + sync + refresh (`refresh(true)`).
 - Top-bar refresh icon = `refresh(false)`: sync and reload without marking the visible list as read.
-- On app start and on returning to the app (`refresh(true,true)`, "auto"): a "No new articles" toast confirms the refresh when every fetched unread item was already in the previous list (on a cold start: when there are no unread items).
+- On app start and on returning to the app (`refresh(true,true)`, "auto"): a "No new articles" toast confirms the refresh when every fetched unread item was already in `seenIds`, the list as the user last had it on screen (snapshot on the first `pointerdown`/`keydown` after each refresh; on a cold start it is empty, so the toast only shows when there are no unread items). Comparing with the previous fetch was wrong: a refresh can run while the user is not looking.
 - On returning to the app: refresh if the list is empty, all read, or at the top; otherwise `softSync()` greys articles read elsewhere without touching the list or scroll position, and if the server has unread ids newer than anything loaded it shows a tappable toast ("N new articles · Tap to refresh", 8 s, `toast(text,action,ms)`) that runs `refresh(false)`; any refresh hides it. Skipped in non-unread views and if the last sync was under 10 s ago.
 - Search/filter popup: text (accent/case-insensitive, all words must match) plus categories/labels (any selected). Categories expand (chevron) to individual feeds from `subscription/list`; a fully checked category is stored in `filt.tags`, a partial one as feed ids in `filt.feeds` (matched on `origin.streamId`). The filter persists across refreshes. Hidden items are never marked read.
 - Touch gestures:
