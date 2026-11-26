@@ -17,7 +17,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 - `.github/workflows/docker.yml`: (only when files that go into the image change, keep its `paths` list in sync with the `Dockerfile`) builds the image for amd64 and arm64 and pushes it to `ghcr.io/<owner>/lightning-rss-reader` (`latest` on every push to main, `X.Y.Z` / `X.Y` / `X` on `vX.Y.Z` tags).
 - `unraid/lightning-rss-reader.xml`: Unraid Docker template for that image (port 3000 -> 8095, `FRESHRSS_URL`, `NOTIFICATIONS`, `VAPID_SUBJECT`, `/data`, `--user 99:100`). Keep it generic: no personal values.
 - `deploy.sh`: rsyncs the build context, `docker-compose.yml` and `.env` over SSH, then runs `docker compose up -d --build`. Configured by `deploy.env` (git-ignored, see `deploy.env.example`).
-- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v78). **Bump it on every change**: it is how to check which build a device loaded.
+- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v79). **Bump it on every change**: it is how to check which build a device loaded.
 
 ## Deployment
 - The app must be served from the same origin as FreshRSS's `/api/greader.php` (it builds API URLs from `location.origin`). Either use the Docker container, which proxies `/api/`, or drop the files in FreshRSS's `p/` folder (no notifications then).
@@ -71,6 +71,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 - **`[hidden]{display:none!important}`** is needed because several IDs set `display:flex`.
 - **`100dvh` was unreliable** in the Vivaldi PWA: use `html{height:100%}` and the `--vh` variable set from `innerHeight`.
 - Article HTML from feeds can be broken or styled. It is sanitized with a `<template>`, inline styles and `on*` attributes are stripped, and `#art .in *` forces `position:static` and no floats. If a `<picture><source>` image fails, the sources are removed so the `<img>` fallback loads.
+- **Idle CPU**: never leave an `infinite` animation running on a hidden element (`opacity:0` still animates). The loading bar used to animate `left` all the time and cost ~18% of a core; it is now only animated under `html.loading`, with `transform`.
 - `markRead` must not rely on `pending` for counting: `pending` is emptied after each successful flush.
 - **Swipes in Chromium**: on a diagonal move Chromium starts the vertical scroll in the first pixels (and fires `pointercancel` on pointer events), so swipes were lost. List and article swipes use touch events with a non-passive `touchmove`: the direction is decided at once (horizontal if `|dx|>|dy|`) and horizontal-ish moves call `preventDefault()` before the browser commits to scrolling; if `e.cancelable` is false the page is already scrolling and the swipe is dropped. Touch events also keep mouse drags from swiping.
 
