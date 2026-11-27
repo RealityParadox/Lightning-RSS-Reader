@@ -13,7 +13,7 @@
 @media(prefers-color-scheme:dark){:root{--bg:#0f1419;--card:#171e26;--ink:#e6edf3;--dim:#8b9aa8;--acc:#4cc9d8;--line:#26303a}}
 *{box-sizing:border-box}
 html{overscroll-behavior-y:contain}
-html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:calc(16px*var(--ifs,1))/1.5 system-ui,sans-serif}
 #hd{position:sticky;top:0;z-index:5;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:var(--bg);border-bottom:1px solid var(--line)}
 #views{display:flex;gap:4px}
 .vb{position:relative;background:none;border:0;padding:6px 10px;border-radius:10px;color:var(--dim)}
@@ -26,8 +26,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ic{background:none;border:0;padding:8px;color:var(--acc);font-weight:600}
 .ic svg{display:block;width:26px;height:26px}
 #list article{padding:14px 16px;border-bottom:1px solid var(--line);background:var(--card)}
-#list article b{display:block;font-size:17px;line-height:1.3;margin-bottom:4px}
-#list article .ex{color:var(--dim);font-size:14px;line-height:1.35;margin:2px 0 6px}
+#list article b{display:block;font-size:calc(17px*var(--ifs,1));line-height:1.3;margin-bottom:4px}
+#list article .ex{color:var(--dim);font-size:calc(14px*var(--ifs,1));line-height:1.35;margin:2px 0 6px}
 #list article small{color:var(--dim)}
 #list article{display:flow-root}
 #list article .th{float:left;width:96px;height:96px;margin:0 12px 6px 0;object-fit:cover;border-radius:8px;background:var(--line)}
@@ -51,26 +51,26 @@ html.noth #list article .th,html.noex #list article .ex{display:none}
 html{height:100%}
 body{display:flex;flex-direction:column;min-height:100%}
 #end{margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:14px;padding:32px 20px calc(14px + env(safe-area-inset-bottom,0px))}
-#sync{order:2;position:sticky;z-index:6;top:calc(var(--vh,100vh) - var(--bh,70px) - 14px - env(safe-area-inset-bottom,0px));width:100%;max-width:420px;padding:20px;font-size:19px;font-weight:700;border:0;border-radius:14px;background:var(--acc);color:#fff;box-shadow:0 6px 20px #0006}
+#sync{order:2;position:sticky;z-index:6;top:calc(var(--vh,100vh) - var(--bh,70px) - 14px - env(safe-area-inset-bottom,0px));width:100%;max-width:420px;padding:20px;font-size:calc(19px*var(--ifs,1));font-weight:700;border:0;border-radius:14px;background:var(--acc);color:#fff;box-shadow:0 6px 20px #0006}
 #sync:disabled{opacity:.6}
 #sync{display:flex;align-items:center;justify-content:center;gap:14px}
 #sync svg{display:block;width:28px;height:28px}
 #sync .pl{font-size:22px;font-weight:700;opacity:.7;line-height:1}
 #sp{order:3;flex:none;width:100%;height:0;margin-top:-14px}
-#end p{order:1;margin:0;color:var(--dim);font-size:14px;text-align:center}
+#end p{order:1;margin:0;color:var(--dim);font-size:calc(14px*var(--ifs,1));text-align:center}
 #bar.full,#tbar.full{height:10px}
 #tbar{position:fixed;left:0;top:0;height:5px;transition:height .12s;width:0;background:var(--acc);z-index:20}
 #bar{position:fixed;left:0;bottom:0;height:5px;transition:height .12s;width:0;background:var(--acc);z-index:20}
 #art{position:fixed;inset:0;z-index:10;background:var(--bg);overflow:auto;overscroll-behavior-y:contain;display:none}
 #art.on{display:block}
-#art .in{max-width:680px;margin:0 auto;padding:18px 18px 80px;font:19px/1.65 system-ui,sans-serif}
-#art h1{font:700 26px/1.25 system-ui,sans-serif;margin:8px 0}
-#art .meta{font:14px system-ui,sans-serif;color:var(--dim);margin-bottom:20px}
+#art .in{max-width:680px;margin:0 auto;padding:18px 18px 80px;font:calc(19px*var(--afs,1))/1.65 system-ui,sans-serif}
+#art h1{font:700 calc(26px*var(--afs,1))/1.25 system-ui,sans-serif;margin:8px 0}
+#art .meta{font:calc(14px*var(--afs,1)) system-ui,sans-serif;color:var(--dim);margin-bottom:20px}
 #art img,#art video{max-width:100%;height:auto}
 #art a{color:var(--acc)}
 #art h1 a{color:inherit;text-decoration:none}
 #art pre{overflow:auto}
-#art .hint{font:14px system-ui,sans-serif;color:var(--dim);text-align:center;margin:40px 0 0}
+#art .hint{font:calc(14px*var(--afs,1)) system-ui,sans-serif;color:var(--dim);text-align:center;margin:40px 0 0}
 #art .in *{position:static!important;float:none!important;max-width:100%}
 #art table{display:block;overflow:auto}
 #tb{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -96,17 +96,17 @@ html.tbt.notb #art .in{padding-top:calc(18px + env(safe-area-inset-top,0px))}
 #fsheet .bk{position:absolute;inset:0;background:#0008}
 #sheet .pn{position:absolute;left:0;right:0;bottom:0;max-height:70vh;overflow:auto;background:var(--card);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:4px}
 #fsheet .pn{position:absolute;left:0;right:0;bottom:0;max-height:70vh;overflow:auto;background:var(--card);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:4px}
-#sheet label{display:flex;gap:12px;align-items:center;padding:12px 4px;font-size:17px}
-#fsheet label{display:flex;gap:12px;align-items:center;padding:12px 4px;font-size:17px}
+#sheet label{display:flex;gap:12px;align-items:center;padding:12px 4px;font-size:calc(17px*var(--ifs,1))}
+#fsheet label{display:flex;gap:12px;align-items:center;padding:12px 4px;font-size:calc(17px*var(--ifs,1))}
 #sheet input{width:22px;height:22px}
 #fsheet input{width:22px;height:22px}
-#sheet .pn>button{margin-top:8px;padding:12px;border:0;border-radius:8px;background:var(--acc);color:#fff;font:700 16px system-ui,sans-serif}
-#fsheet .pn>button{margin-top:8px;padding:12px;border:0;border-radius:8px;background:var(--acc);color:#fff;font:700 16px system-ui,sans-serif}
+#sheet .pn>button{margin-top:8px;padding:12px;border:0;border-radius:8px;background:var(--acc);color:#fff;font:700 calc(16px*var(--ifs,1)) system-ui,sans-serif}
+#fsheet .pn>button{margin-top:8px;padding:12px;border:0;border-radius:8px;background:var(--acc);color:#fff;font:700 calc(16px*var(--ifs,1)) system-ui,sans-serif}
 #login{width:100%;max-width:340px;margin:20vh auto;padding:20px;display:none;flex-direction:column;gap:10px}
 #login input{padding:12px;font:inherit;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
 #login button{padding:12px;border:0;border-radius:8px;background:var(--acc);color:#fff;font-weight:700}
 /* above the pinned sync button (its height is --bh, set by fitSpacer), and above the bottom toolbar if any */
-#toast{position:fixed;left:50%;bottom:calc(var(--bh,70px) + 30px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;z-index:30;display:none;font-size:14px}
+#toast{position:fixed;left:50%;bottom:calc(var(--bh,70px) + 30px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;z-index:30;display:none;font-size:calc(14px*var(--ifs,1))}
 /* loading indicator: thin bar at the top of the window + spinning refresh icon */
 #load{position:fixed;top:0;left:0;right:0;height:3px;z-index:30;overflow:hidden;opacity:0;transition:opacity .2s;pointer-events:none}
 html.loading #load{opacity:1;transition:opacity .15s .25s}
@@ -127,9 +127,9 @@ html.loading #top svg{animation:spin 1s linear infinite}
 #ocats a{display:flex;align-items:center;gap:14px;padding:16px;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none}
 #ocats a>svg{flex:none;width:24px;height:24px;color:var(--acc)}
 #ocats a span{flex:1;font-weight:600}
-#ocats a small{display:block;color:var(--dim);font-size:13px;font-weight:400;line-height:1.3}
+#ocats a small{display:block;color:var(--dim);font-size:calc(13px*var(--ifs,1));font-weight:400;line-height:1.3}
 #ocats a .chev{width:22px;height:22px;color:var(--dim)}
-#opts h2{display:none;margin:12px 0 4px;font-size:20px}
+#opts h2{display:none;margin:12px 0 4px;font-size:calc(20px*var(--ifs,1))}
 @media (min-width:900px){
   #opts .olay{display:flex;gap:32px;max-width:1000px;margin:0 auto;padding:16px}
   #ocats{flex:none;width:240px;margin:0;gap:2px;position:sticky;top:64px;align-self:flex-start}
@@ -140,16 +140,16 @@ html.loading #top svg{animation:spin 1s linear infinite}
   #opts h2{display:block}
 }
 .opt{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
-.opt b{display:block;font-size:16px}
+.opt b{display:block;font-size:calc(16px*var(--ifs,1))}
 .opt small{display:block;color:var(--dim);margin-top:2px;line-height:1.35}
-.opt select{flex:none;max-width:55%;font:inherit;font-size:15px;padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+.opt select{flex:none;max-width:55%;font:inherit;font-size:calc(15px*var(--ifs,1));padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
 .tgl{appearance:none;-webkit-appearance:none;flex:none;width:46px;height:28px;border-radius:14px;background:var(--line);position:relative;margin:0;transition:background .15s}
 .tgl::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .15s}
 .tgl:checked{background:var(--acc)}
 .tgl:checked::after{left:21px}
 /* toolbar position (options): html.hdb = list toolbar at the bottom, html.tbt = article toolbar at the top */
 .seg{display:flex;flex:none;border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.seg button{border:0;background:none;padding:6px 14px;font-size:14px;color:var(--dim)}
+.seg button{border:0;background:none;padding:6px 14px;font-size:calc(14px*var(--ifs,1));color:var(--dim)}
 .seg button.on{background:var(--acc);color:var(--bg);font-weight:600}
 html.hdb #hd{order:9;top:auto;bottom:0;height:calc(48px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);border-bottom:0;border-top:1px solid var(--line)}
 html.hdb:has(#end[hidden]) #hd{margin-top:auto}
@@ -173,7 +173,7 @@ html.tbt #art .in{padding-top:calc(18px + 57px + env(safe-area-inset-top,0px))}
   html:not(.ready) #split,html:not(.ready) #art{display:none}
   #art,#art.on{display:flex;flex-direction:column;position:fixed;left:var(--lw,420px);right:0;top:0;bottom:0;z-index:1;border-left:1px solid var(--line)}
   #art .in{flex:1;width:100%;max-width:none;padding:24px 36px 80px}
-  #art .in:empty::before{content:'Select an article from the list.';display:block;margin-top:30vh;text-align:center;color:var(--dim);font:16px system-ui,sans-serif}
+  #art .in:empty::before{content:'Select an article from the list.';display:block;margin-top:30vh;text-align:center;color:var(--dim);font:calc(16px*var(--afs,1)) system-ui,sans-serif}
   #art:not(.on) #tb{display:none}
   #tb{position:sticky;left:auto;right:auto;bottom:0}
   #art .hint{display:none}
@@ -185,18 +185,18 @@ html.tbt #art .in{padding-top:calc(18px + 57px + env(safe-area-inset-top,0px))}
   #fsheet .pn{max-width:520px;width:100%;left:50%;right:auto;transform:translateX(-50%)}
 }
 
-#fsheet #fq{width:100%;height:auto;padding:12px;font:16px system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);margin:4px 0 8px}
-#fsheet .fh{margin:10px 0 0;font:700 12px system-ui,sans-serif;text-transform:uppercase;letter-spacing:.05em;color:var(--dim)}
+#fsheet #fq{width:100%;height:auto;padding:12px;font:calc(16px*var(--ifs,1)) system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);margin:4px 0 8px}
+#fsheet .fh{margin:10px 0 0;font:700 calc(12px*var(--ifs,1)) system-ui,sans-serif;text-transform:uppercase;letter-spacing:.05em;color:var(--dim)}
 #fsheet .row{display:flex;gap:10px;margin-top:10px}
-#fsheet #fclear{flex:0 0 auto;padding:12px 18px;border:1px solid var(--line);border-radius:8px;background:none;color:var(--ink);font:600 16px system-ui,sans-serif}
+#fsheet #fclear{flex:0 0 auto;padding:12px 18px;border:1px solid var(--line);border-radius:8px;background:none;color:var(--ink);font:600 calc(16px*var(--ifs,1)) system-ui,sans-serif}
 #fsheet #fgo{flex:1;display:flex;justify-content:center;padding:12px;border:0;border-radius:8px;background:var(--acc);color:var(--bg)}
 #fsheet #fgo svg{display:block;width:26px;height:26px}
 /* filter popup: taller, smaller text; only the category list scrolls, the field and buttons stay visible */
 #fsheet .pn{max-height:calc(var(--vh,100vh) - 24px);overflow:hidden;gap:2px}
 #fsheet #flabs{flex:1;min-height:0;overflow-y:auto}
-#fsheet label{font-size:14px;padding:5px 4px;gap:10px}
+#fsheet label{font-size:calc(14px*var(--ifs,1));padding:5px 4px;gap:10px}
 #fsheet label input{width:18px;height:18px}
-#fsheet .fh{margin-top:8px;font-size:11px}
+#fsheet .fh{margin-top:8px;font-size:calc(11px*var(--ifs,1))}
 /* expandable categories in the filter popup (individual feeds) */
 #fsheet .fcat{display:flex;align-items:center}
 #fsheet .fcat label{flex:1;min-width:0}
@@ -215,7 +215,7 @@ html.tbt #art .in{padding-top:calc(18px + 57px + env(safe-area-inset-top,0px))}
   <input id="p" type="password" placeholder="API password" autocomplete="current-password">
   <button>Sign in</button>
 </form>
-<div id="left"><header id="hd" hidden><div id="views"><button id="vu" class="vb on" aria-label="Unread"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="count" hidden></span></button><button id="vr" class="vb" aria-label="Read"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM12 13L3.74 7.84 12 3l8.26 4.84L12 13z"/></svg></button><button id="vs" class="vb" aria-label="Starred"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button></div><small id="ver">v86</small><button class="ic" id="srch" aria-label="Search and filter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button><button class="ic" id="top" aria-label="Refresh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button class="ic" id="gear" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button></header>
+<div id="left"><header id="hd" hidden><div id="views"><button id="vu" class="vb on" aria-label="Unread"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="count" hidden></span></button><button id="vr" class="vb" aria-label="Read"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM12 13L3.74 7.84 12 3l8.26 4.84L12 13z"/></svg></button><button id="vs" class="vb" aria-label="Starred"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button></div><small id="ver">v87</small><button class="ic" id="srch" aria-label="Search and filter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button><button class="ic" id="top" aria-label="Refresh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button class="ic" id="gear" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button></header>
 <main id="list" hidden></main>
 <div id="end" hidden>
   <div id="sp"></div>
@@ -239,6 +239,8 @@ html.tbt #art .in{padding-top:calc(18px + 57px + env(safe-area-inset-top,0px))}
       <section data-c="interface"><h2>Interface</h2>
         <div class="opt"><span><b>List toolbar</b><small>Position of the bar with the views, search, refresh and options.</small></span><div class="seg" data-o="listBar"><button data-v="top">Top</button><button data-v="bottom">Bottom</button></div></div>
         <div class="opt"><span><b>Article toolbar</b><small>Position of the bar with star, open, share and labels.</small></span><div class="seg" data-o="artBar"><button data-v="top">Top</button><button data-v="bottom">Bottom</button></div></div>
+        <div class="opt"><span><b>Interface text size</b><small>List, popups and options.</small></span><select id="o-ifs"><option value="0.9">Small</option><option value="1">Default</option><option value="1.15">Large</option><option value="1.3">Larger</option><option value="1.5">Largest</option></select></div>
+        <div class="opt"><span><b>Article text size</b><small>Text of the opened article.</small></span><select id="o-afs"><option value="0.9">Small</option><option value="1">Default</option><option value="1.15">Large</option><option value="1.3">Larger</option><option value="1.5">Largest</option></select></div>
         <label class="opt"><span><b>Thumbnails</b><small>Show the article picture in the list.</small></span><input type="checkbox" class="tgl" id="o-th"></label>
         <label class="opt"><span><b>Excerpts</b><small>Show the start of the article in the list.</small></span><input type="checkbox" class="tgl" id="o-ex"></label>
         <div class="opt"><span><b>Article toolbar buttons</b><small>Turn buttons on or off and change their order.</small></span></div>
@@ -818,7 +820,7 @@ $('#fsheet .bk').onclick=closeFilter;
 $('#fq').addEventListener('keydown',e=>{if(e.key=='Enter'){e.preventDefault();confirmFilter()}else if(e.key=='Escape')closeFilter()});
 
 /* options (stored in the browser) */
-let opts={tbOrder:['close','star','open','share','lab'],tbOff:[],markScroll:true,vibrate:true,onBack:'refresh',thumbs:true,excerpts:true,listBar:'top',artBar:'bottom',notify:false,notifyMin:10,
+let opts={tbOrder:['close','star','open','share','lab'],tbOff:[],markScroll:true,vibrate:true,onBack:'refresh',thumbs:true,excerpts:true,uiSize:1,artSize:1,listBar:'top',artBar:'bottom',notify:false,notifyMin:10,
   gCardRight:'star',gCardLeft:'labels',gListUp:'markRefresh',gListDown:'refresh',gArtUp:'close',gArtDown:'close',gArtLeft:'next',gArtRight:'prev'};
 try{opts={...opts,...JSON.parse(ls.opts||'{}')}}catch{}
 const saveOpts=()=>{ls.opts=JSON.stringify(opts)};
@@ -878,8 +880,13 @@ function applyBars(){
   const c=document.documentElement.classList;
   c.toggle('hdb',opts.listBar=='bottom');c.toggle('tbt',opts.artBar=='top');
   c.toggle('noth',!opts.thumbs);c.toggle('noex',!opts.excerpts);
+  /* text sizes (options): CSS font sizes are multiplied by --ifs (interface) or --afs (article) */
+  const st=document.documentElement.style;st.setProperty('--ifs',opts.uiSize);st.setProperty('--afs',opts.artSize);
   document.querySelectorAll('.seg').forEach(s=>s.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v==opts[s.dataset.o])));
 }
+$('#o-ifs').value=opts.uiSize;$('#o-afs').value=opts.artSize;
+$('#o-ifs').onchange=e=>{opts.uiSize=+e.target.value;saveOpts();applyBars();fitSpacer()};
+$('#o-afs').onchange=e=>{opts.artSize=+e.target.value;saveOpts();applyBars()};
 $('#o-th').checked=opts.thumbs;$('#o-ex').checked=opts.excerpts;
 $('#o-th').onchange=e=>{opts.thumbs=e.target.checked;saveOpts();applyBars()};
 $('#o-ex').onchange=e=>{opts.excerpts=e.target.checked;saveOpts();applyBars()};

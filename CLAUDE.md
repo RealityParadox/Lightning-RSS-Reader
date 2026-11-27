@@ -17,7 +17,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 - `.github/workflows/docker.yml`: (only when files that go into the image change, keep its `paths` list in sync with the `Dockerfile`) builds the image for amd64 and arm64 and pushes it to `ghcr.io/<owner>/lightning-rss-reader` (`latest` on every push to main, `X.Y.Z` / `X.Y` / `X` on `vX.Y.Z` tags).
 - `unraid/lightning-rss-reader.xml`: Unraid Docker template for that image (port 3000 -> 8095, `FRESHRSS_URL`, `NOTIFICATIONS`, `VAPID_SUBJECT`, `/data`, `--user 99:100`). Keep it generic: no personal values.
 - `deploy.sh`: rsyncs the build context, `docker-compose.yml` and `.env` over SSH, then runs `docker compose up -d --build`. Configured by `deploy.env` (git-ignored, see `deploy.env.example`).
-- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v86). **Bump it on every change**: it is how to check which build a device loaded.
+- The version badge `<small id="ver">vNN</small>` sits in the top bar (currently v87). **Bump it on every change**: it is how to check which build a device loaded.
 
 ## Deployment
 - The app must be served from the same origin as FreshRSS's `/api/greader.php` (it builds API URLs from `location.origin`). Either use the Docker container, which proxies `/api/`, or drop the files in FreshRSS's `p/` folder (no notifications then).
@@ -35,7 +35,7 @@ Personal setup details (server, domains, language preferences) live in `CLAUDE.l
 
 ## Features (what exists)
 - Top bar: three view buttons (unread with count badge, read, starred), search/filter, refresh icon, options (gear), version.
-- List cards: thumbnail (first `<img>`, fallback to enclosure; floated left, 96px), title, 160-char excerpt, source and date. Starred items show a star. Thumbnails and excerpts can be hidden (`opts.thumbs`, `opts.excerpts`, Interface; `html.noth` / `html.noex` set in `applyBars()`).
+- List cards: thumbnail (first `<img>`, fallback to enclosure; floated left, 96px), title, 160-char excerpt, source and date. Starred items show a star. Text sizes (`opts.uiSize`, `opts.artSize`, Interface): every CSS font size is written `calc(Npx*var(--ifs,1))` (interface) or `var(--afs,1)` (article content, title, meta), set in `applyBars()`; new font sizes must follow that (except the version badge, the unread badge and the sync arrow). Thumbnails and excerpts can be hidden (`opts.thumbs`, `opts.excerpts`, Interface; `html.noth` / `html.noex` set in `applyBars()`).
 - Mark as read on scroll: `IntersectionObserver` (rootMargin `-48px` top). Only in the unread view, and only if the option is on. Opening an article marks it read.
 - Read marks are queued in `pending` (persisted in `localStorage`) and flushed every 3 s, when the page is hidden, and before refreshes.
 - Unread count = cards without `.read` in the DOM (not derived from `pending`; that caused a bug).
