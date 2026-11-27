@@ -36,11 +36,12 @@ button{font:inherit;color:inherit;cursor:pointer}
 #list article{touch-action:pan-y;user-select:none;-webkit-user-select:none}
 #list article.starred b::before{content:'★ ';color:var(--acc)}
 #list article.sw{position:relative;box-shadow:-100vw 0 0 0 var(--acc)}
-#list article.sw::before{content:attr(data-lbl);position:absolute;right:100%;margin-right:14px;top:50%;transform:translateY(-50%);font:700 13px system-ui,sans-serif;color:#fff;opacity:.55;white-space:nowrap}
-#list article[data-lbl="★"]::before,#list article[data-lbl="★"]::after{font-size:26px;font-weight:400}
+/* icon of the configured action in the revealed area: the toolbar icon, drawn as a mask (--ic, set by the swipe code) */
+#list article.sw::before,#list article.swl::after{content:'';position:absolute;top:50%;width:26px;height:26px;transform:translateY(-50%);background:#fff;opacity:.55;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
+#list article.sw::before{right:100%;margin-right:16px}
 #list article.sw.full::before{opacity:1}
 #list article.swl{position:relative;box-shadow:100vw 0 0 0 #5b6b7a}
-#list article.swl::after{content:attr(data-lbl);white-space:nowrap;position:absolute;left:100%;margin-left:14px;top:50%;transform:translateY(-50%);font:700 13px system-ui,sans-serif;color:#fff;opacity:.55}
+#list article.swl::after{left:100%;margin-left:16px}
 #list article.swl.full::after{opacity:1}
 #sheet .pn>b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #fsheet .pn>b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -212,7 +213,7 @@ html.tbt #art .in{padding-top:calc(18px + 57px + env(safe-area-inset-top,0px))}
   <input id="p" type="password" placeholder="API password" autocomplete="current-password">
   <button>Sign in</button>
 </form>
-<div id="left"><header id="hd" hidden><div id="views"><button id="vu" class="vb on" aria-label="Unread"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="count" hidden></span></button><button id="vr" class="vb" aria-label="Read"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM12 13L3.74 7.84 12 3l8.26 4.84L12 13z"/></svg></button><button id="vs" class="vb" aria-label="Starred"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button></div><small id="ver">v79</small><button class="ic" id="srch" aria-label="Search and filter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button><button class="ic" id="top" aria-label="Refresh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button class="ic" id="gear" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button></header>
+<div id="left"><header id="hd" hidden><div id="views"><button id="vu" class="vb on" aria-label="Unread"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="count" hidden></span></button><button id="vr" class="vb" aria-label="Read"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM12 13L3.74 7.84 12 3l8.26 4.84L12 13z"/></svg></button><button id="vs" class="vb" aria-label="Starred"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button></div><small id="ver">v80</small><button class="ic" id="srch" aria-label="Search and filter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button><button class="ic" id="top" aria-label="Refresh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button class="ic" id="gear" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button></header>
 <main id="list" hidden></main>
 <div id="end" hidden>
   <div id="sp"></div>
@@ -650,7 +651,7 @@ L.addEventListener('touchmove',e=>{
     if(Math.abs(dx)<10)return;
     const act=dx>0?opts.gCardRight:opts.gCardLeft;
     if(act=='none'){sw=null;return}   /* nothing assigned to this direction */
-    sw.lock=true;sw.dir=dx>0?1:-1;sw.act=act;sw.a.dataset.lbl=CARDLBL[act];
+    sw.lock=true;sw.dir=dx>0?1:-1;sw.act=act;sw.a.style.setProperty('--ic',cardIcon(act));
     sw.a.classList.add(sw.dir>0?'sw':'swl');sw.a.style.transition='none';
   }
   if(e.cancelable)e.preventDefault();
@@ -666,7 +667,7 @@ const swEnd=e=>{
   if(!g.lock)return;
   swiped=true;setTimeout(()=>swiped=false,400);
   g.a.style.transition='transform .2s';g.a.style.transform='';
-  setTimeout(()=>{g.a.classList.remove('sw','swl','full');g.a.style.transition='';delete g.a.dataset.lbl},220);
+  setTimeout(()=>{g.a.classList.remove('sw','swl','full');g.a.style.transition='';g.a.style.removeProperty('--ic')},220);
   const it=items[+g.a.dataset.i];
   if(e.type=='touchend'&&g.full&&it)cardAction(g.act,it);
 };
@@ -884,7 +885,9 @@ function artAction(a){
   else if(a=='share')shareItem(cur);
 }
 /* swipe on a list card: text shown in the revealed area, and the action on that article */
-const CARDLBL={star:'★',labels:'Labels',open:'Open',share:'Share'};
+/* same icons as the article toolbar buttons (filled star), as SVG data URLs for the CSS mask */
+const svgUrl=d=>'url("data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="'+d+'"/></svg>')+'")';
+const cardIcon=a=>svgUrl(a=='star'?IC.starOn:a=='labels'?IC.lab:$('#'+a+' svg path').getAttribute('d'));
 function cardAction(a,it){
   if(a=='star')change(it,STAR,!has(it,STAR));
   else if(a=='labels')openSheet(it);
