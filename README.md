@@ -31,7 +31,7 @@ Gestures give visual feedback (the content follows the finger, progress bar) and
 **Options**, grouped in categories:
 - *Interface*: list toolbar and article toolbar at the top or bottom; article toolbar buttons (close, star, open, share, labels) turned on or off and reordered.
 - *Behaviour*: mark as read while scrolling.
-- *Gestures*: the action of each gesture.
+- *Gestures*: vibrations on or off, and the action of each gesture.
 - *Notifications*: push notifications for new unread articles, checked by the server every 5 minutes to 3 hours, even when the app is closed (Docker container only).
 
 ## Requirements
