@@ -14,7 +14,7 @@
 *{box-sizing:border-box}
 html{overscroll-behavior-y:contain}
 html,body{margin:0;background:var(--bg);color:var(--ink);font:calc(16px*var(--ifs,1))/1.5 system-ui,sans-serif}
-#hd{position:sticky;top:0;z-index:5;height:48px;display:flex;align-items:center;gap:4px;padding:0 14px;background:var(--bg);border-bottom:1px solid var(--line)}
+#hd{position:sticky;top:0;z-index:5;height:var(--bar,48px);display:flex;align-items:center;gap:4px;padding:0 14px;background:var(--bg);border-bottom:1px solid var(--line)}
 .vb{position:relative;background:none;border:0;padding:6px 10px;border-radius:10px;color:var(--dim)}
 .vb svg{display:block;width:24px;height:24px}
 .vb.on{color:var(--acc);background:color-mix(in srgb,var(--acc) 16%,transparent)}
@@ -27,6 +27,9 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font:calc(16px*var(--if
 button{font:inherit;color:inherit;cursor:pointer}
 .ic{background:none;border:0;padding:8px;color:var(--acc);font-weight:600}
 .ic svg{display:block;width:26px;height:26px}
+/* toolbar icon size (option): --bar = toolbar height, --ics = icon scale */
+#hd .vb svg,#tb svg{width:calc(24px*var(--ics,1));height:calc(24px*var(--ics,1))}
+#hd .ic svg,#opts .obar .ic svg{width:calc(26px*var(--ics,1));height:calc(26px*var(--ics,1))}
 #list article{padding:14px 16px;border-bottom:1px solid var(--line);background:var(--card)}
 #list article b{display:block;font-size:calc(17px*var(--ifs,1));line-height:1.3;margin-bottom:4px}
 #list article .ex{color:var(--dim);font-size:calc(14px*var(--ifs,1));line-height:1.35;margin:2px 0 6px}
@@ -75,10 +78,10 @@ body{display:flex;flex-direction:column;min-height:100%}
 #art .hint{font:calc(14px*var(--afs,1)) system-ui,sans-serif;color:var(--dim);text-align:center;margin:40px 0 0}
 #art .in *{position:static!important;float:none!important;max-width:100%}
 #art table{display:block;overflow:auto}
-/* same height (48px with the border) and background as the list toolbar */
+/* same height (--bar, border included) and background as the list toolbar */
 #tb{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--bg);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
-#tb button,#tb a{flex:1;height:47px;padding:0;align-items:center;border:0;background:none;color:var(--acc);display:flex;justify-content:center}
-#tb svg{display:block;width:24px;height:24px}
+#tb button,#tb a{flex:1;height:calc(var(--bar,48px) - 1px);padding:0;align-items:center;border:0;background:none;color:var(--acc);display:flex;justify-content:center}
+#tb svg{display:block}
 #tb button.on{color:var(--acc)}
 /* buttons turned off in Options > Interface */
 #tb .off{display:none}
@@ -124,7 +127,7 @@ html.loading #top svg{animation:spin 1s linear infinite}
 /* options page */
 #opts{position:fixed;inset:0;z-index:50;background:var(--bg);display:none;overflow:auto}
 #opts.on{display:block}
-#opts .obar{position:sticky;top:0;display:flex;align-items:center;gap:8px;padding:0 8px;height:48px;background:var(--bg);border-bottom:1px solid var(--line)}
+#opts .obar{position:sticky;top:0;display:flex;align-items:center;gap:8px;padding:0 8px;height:var(--bar,48px);background:var(--bg);border-bottom:1px solid var(--line)}
 #opts .obody{max-width:640px;margin:0 auto;padding:8px 16px}
 /* categories: on phones a list (#options) then one category (#options/<cat>); side by side on wide screens */
 #ocats{display:flex;flex-direction:column;max-width:640px;margin:0 auto}
@@ -155,14 +158,14 @@ html.loading #top svg{animation:spin 1s linear infinite}
 .seg{display:flex;flex:none;border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .seg button{border:0;background:none;padding:6px 14px;font-size:calc(14px*var(--ifs,1));color:var(--dim)}
 .seg button.on{background:var(--acc);color:var(--bg);font-weight:600}
-html.hdb #hd{order:9;top:auto;bottom:0;height:calc(48px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);border-bottom:0;border-top:1px solid var(--line)}
+html.hdb #hd{order:9;top:auto;bottom:0;height:calc(var(--bar,48px) + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);border-bottom:0;border-top:1px solid var(--line)}
 html.hdb:has(#end[hidden]) #hd{margin-top:auto}
 html.hdb #end{padding-bottom:14px}
 #toast.act{cursor:pointer;background:var(--acc);color:var(--bg);font-weight:600;box-shadow:0 4px 14px #0005}
-html.hdb #toast{bottom:calc(var(--bh,70px) + 30px + 48px + env(safe-area-inset-bottom,0px))}
-html.hdb #sync{top:calc(var(--vh,100vh) - var(--bh,70px) - 14px - 48px - env(safe-area-inset-bottom,0px))}
+html.hdb #toast{bottom:calc(var(--bh,70px) + 30px + var(--bar,48px) + env(safe-area-inset-bottom,0px))}
+html.hdb #sync{top:calc(var(--vh,100vh) - var(--bh,70px) - 14px - var(--bar,48px) - env(safe-area-inset-bottom,0px))}
 html.tbt #tb{top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--line);padding-bottom:0;padding-top:env(safe-area-inset-top,0px)}
-html.tbt #art .in{padding-top:calc(18px + 48px + env(safe-area-inset-top,0px))}
+html.tbt #art .in{padding-top:calc(18px + var(--bar,48px) + env(safe-area-inset-top,0px))}
 /* popups opened from a toolbar placed at the top are shown at the top */
 #sheet.top .pn,#fsheet.top .pn{top:0;bottom:auto;border-radius:0 0 16px 16px;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 16px}
 #left{display:contents}
@@ -219,7 +222,7 @@ html.tbt #art .in{padding-top:calc(18px + 48px + env(safe-area-inset-top,0px))}
   <input id="p" type="password" placeholder="API password" autocomplete="current-password">
   <button>Sign in</button>
 </form>
-<div id="left"><header id="hd" hidden><button id="vu" class="vb on" aria-label="Unread"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="count" hidden></span></button><button id="vr" class="vb" aria-label="Read"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM12 13L3.74 7.84 12 3l8.26 4.84L12 13z"/></svg></button><button id="vs" class="vb" aria-label="Starred"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button><small id="ver">v91</small><button class="ic" id="srch" aria-label="Search and filter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button><button class="ic" id="top" aria-label="Refresh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button class="ic" id="gear" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button></header>
+<div id="left"><header id="hd" hidden><button id="vu" class="vb on" aria-label="Unread"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="count" hidden></span></button><button id="vr" class="vb" aria-label="Read"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM12 13L3.74 7.84 12 3l8.26 4.84L12 13z"/></svg></button><button id="vs" class="vb" aria-label="Starred"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button><small id="ver">v92</small><button class="ic" id="srch" aria-label="Search and filter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button><button class="ic" id="top" aria-label="Refresh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button class="ic" id="gear" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button></header>
 <main id="list" hidden></main>
 <div id="end" hidden>
   <div id="sp"></div>
@@ -249,6 +252,7 @@ html.tbt #art .in{padding-top:calc(18px + 48px + env(safe-area-inset-top,0px))}
         <label class="opt"><span><b>Thumbnails</b><small>Show the article picture in the list.</small></span><input type="checkbox" class="tgl" id="o-th"></label>
         <div class="opt" id="o-thsrow"><span><b>Thumbnail size</b></span><select id="o-ths"><option value="72">Small</option><option value="96">Default</option><option value="128">Large</option></select></div>
         <label class="opt"><span><b>Excerpts</b><small>Show the start of the article in the list.</small></span><input type="checkbox" class="tgl" id="o-ex"></label>
+        <div class="opt"><span><b>Toolbar icons</b><small>Size of the icons and height of both toolbars.</small></span><div class="seg" data-o="iconSize"><button data-v="s">Small</button><button data-v="m">Default</button><button data-v="l">Large</button></div></div>
         <div class="opt"><span><b>List toolbar buttons</b><small>Turn buttons on or off and change their order. The space separates the left and right buttons and shows the version.</small></span></div>
         <div id="olb"></div>
         <div class="opt"><span><b>Article toolbar buttons</b><small>Turn buttons on or off and change their order.</small></span></div>
@@ -397,11 +401,13 @@ addEventListener('focus',checkActive,true);
 addEventListener('blur',()=>setTimeout(checkActive),true);   /* hasFocus() may still be true during blur */
 
 let io;
+/* toolbar icon size option: [toolbar height, icon scale] */
+const BAR={s:[42,.85],m:[48,1],l:[56,1.2]};
 function makeIO(){
   if(io)io.disconnect();
   io=new IntersectionObserver(es=>es.forEach(e=>{
     if(view=='unread'&&opts.markScroll&&!e.isIntersecting&&e.boundingClientRect.top<0)markRead(e.target.dataset.id,e.target);
-  }),{root:wide()?$('#left'):null,rootMargin:opts.listBar=='bottom'?'0px':'-48px 0px 0px 0px'});
+  }),{root:wide()?$('#left'):null,rootMargin:opts.listBar=='bottom'?'0px':'-'+(BAR[opts.iconSize]||BAR.m)[0]+'px 0px 0px 0px'});
 }
 
 function clean(h){
@@ -832,7 +838,7 @@ $('#fsheet .bk').onclick=closeFilter;
 $('#fq').addEventListener('keydown',e=>{if(e.key=='Enter'){e.preventDefault();confirmFilter()}else if(e.key=='Escape')closeFilter()});
 
 /* options (stored in the browser) */
-let opts={tbOrder:['close','star','open','share','lab'],tbOff:[],lbOrder:['unread','read','starred','space','search','refresh','options'],lbOff:[],markScroll:true,vibrate:true,onBack:'refresh',thumbs:true,thumbSize:96,excerpts:true,uiSize:1,artSize:1,listBar:'top',artBar:'bottom',notify:false,notifyMin:10,
+let opts={tbOrder:['close','star','open','share','lab'],tbOff:[],lbOrder:['unread','read','starred','space','search','refresh','options'],lbOff:[],markScroll:true,vibrate:true,onBack:'refresh',thumbs:true,thumbSize:96,iconSize:'m',excerpts:true,uiSize:1,artSize:1,listBar:'top',artBar:'bottom',notify:false,notifyMin:10,
   gCardRight:'star',gCardLeft:'labels',gListUp:'markRefresh',gListDown:'refresh',gArtUp:'close',gArtDown:'close',gArtLeft:'next',gArtRight:'prev'};
 try{opts={...opts,...JSON.parse(ls.opts||'{}')}}catch{}
 const saveOpts=()=>{ls.opts=JSON.stringify(opts)};
@@ -894,7 +900,8 @@ function applyBars(){
   c.toggle('noth',!opts.thumbs);c.toggle('noex',!opts.excerpts);
   /* text sizes (options): CSS font sizes are multiplied by --ifs (interface) or --afs (article) */
   const st=document.documentElement.style;st.setProperty('--ifs',opts.uiSize);st.setProperty('--afs',opts.artSize);
-  st.setProperty('--th',opts.thumbSize+'px');$('#o-thsrow').hidden=!opts.thumbs;
+  st.setProperty('--th',opts.thumbSize+'px');
+  const bs=BAR[opts.iconSize]||BAR.m;st.setProperty('--bar',bs[0]+'px');st.setProperty('--ics',bs[1]);$('#o-thsrow').hidden=!opts.thumbs;
   document.querySelectorAll('.seg').forEach(s=>s.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v==opts[s.dataset.o])));
 }
 $('#o-ifs').value=opts.uiSize;$('#o-afs').value=opts.artSize;
@@ -908,7 +915,7 @@ $('#o-ex').onchange=e=>{opts.excerpts=e.target.checked;saveOpts();applyBars()};
 applyBars();
 document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{
   opts[b.closest('.seg').dataset.o]=b.dataset.v;saveOpts();applyBars();
-  /* the observer margin depends on the list toolbar position */
+  /* the observer margin depends on the list toolbar position and height */
   makeIO();document.querySelectorAll('#list article').forEach(a=>io.observe(a));fitSpacer();
 });
 /* gestures options: one select per gesture, built from GESTURES / GACT */
