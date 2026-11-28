@@ -33,6 +33,7 @@ Gestures give visual feedback (the content follows the finger, progress bar) and
 - *Behaviour*: mark as read while scrolling; what to do when returning to the app (refresh, only check for read and new articles, or nothing).
 - *Gestures*: vibrations on or off, and the action of each gesture.
 - *Notifications*: push notifications for new unread articles, checked by the server every 5 minutes to 3 hours, even when the app is closed (Docker container only).
+- *Account*: the signed-in user and server, and sign out.
 
 ## Requirements
 
