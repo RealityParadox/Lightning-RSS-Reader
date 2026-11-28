@@ -29,7 +29,7 @@ No build step, no framework, no dependencies: `index.html` holds all the HTML, C
 Gestures give visual feedback (the content follows the finger, progress bar) and a short vibration at the threshold.
 
 **Options**, grouped in categories:
-- *Interface*: list toolbar and article toolbar at the top or bottom; text size of the interface and of articles; thumbnails and excerpts in the list shown or hidden; list toolbar and article toolbar buttons turned on or off and reordered (including where the space between left and right buttons goes).
+- *Interface*: list toolbar and article toolbar at the top or bottom; text size of the interface and of articles; thumbnails (and their size) and excerpts in the list shown or hidden; list toolbar and article toolbar buttons turned on or off and reordered (including where the space between left and right buttons goes).
 - *Behaviour*: mark as read while scrolling; what to do when returning to the app (refresh, only check for read and new articles, or nothing).
 - *Gestures*: vibrations on or off, and the action of each gesture.
 - *Notifications*: push notifications for new unread articles, checked by the server every 5 minutes to 3 hours, even when the app is closed (Docker container only).

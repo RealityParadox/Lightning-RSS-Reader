@@ -32,7 +32,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 #list article .ex{color:var(--dim);font-size:calc(14px*var(--ifs,1));line-height:1.35;margin:2px 0 6px}
 #list article small{color:var(--dim)}
 #list article{display:flow-root}
-#list article .th{float:left;width:96px;height:96px;margin:0 12px 6px 0;object-fit:cover;border-radius:8px;background:var(--line)}
+#list article .th{float:left;width:var(--th,96px);height:var(--th,96px);margin:0 12px 6px 0;object-fit:cover;border-radius:8px;background:var(--line)}
 #list article.read{opacity:.45}
 /* list cards without thumbnails / excerpts (options); hidden lazy images are not downloaded */
 html.noth #list article .th,html.noex #list article .ex{display:none}
@@ -219,7 +219,7 @@ html.tbt #art .in{padding-top:calc(18px + 48px + env(safe-area-inset-top,0px))}
   <input id="p" type="password" placeholder="API password" autocomplete="current-password">
   <button>Sign in</button>
 </form>
-<div id="left"><header id="hd" hidden><button id="vu" class="vb on" aria-label="Unread"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="count" hidden></span></button><button id="vr" class="vb" aria-label="Read"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM12 13L3.74 7.84 12 3l8.26 4.84L12 13z"/></svg></button><button id="vs" class="vb" aria-label="Starred"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button><small id="ver">v90</small><button class="ic" id="srch" aria-label="Search and filter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button><button class="ic" id="top" aria-label="Refresh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button class="ic" id="gear" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button></header>
+<div id="left"><header id="hd" hidden><button id="vu" class="vb on" aria-label="Unread"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="count" hidden></span></button><button id="vr" class="vb" aria-label="Read"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM12 13L3.74 7.84 12 3l8.26 4.84L12 13z"/></svg></button><button id="vs" class="vb" aria-label="Starred"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button><small id="ver">v91</small><button class="ic" id="srch" aria-label="Search and filter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button><button class="ic" id="top" aria-label="Refresh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button class="ic" id="gear" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button></header>
 <main id="list" hidden></main>
 <div id="end" hidden>
   <div id="sp"></div>
@@ -247,6 +247,7 @@ html.tbt #art .in{padding-top:calc(18px + 48px + env(safe-area-inset-top,0px))}
         <div class="opt"><span><b>Interface text size</b><small>List, popups and options.</small></span><select id="o-ifs"><option value="0.9">Small</option><option value="1">Default</option><option value="1.15">Large</option><option value="1.3">Larger</option><option value="1.5">Largest</option></select></div>
         <div class="opt"><span><b>Article text size</b><small>Text of the opened article.</small></span><select id="o-afs"><option value="0.9">Small</option><option value="1">Default</option><option value="1.15">Large</option><option value="1.3">Larger</option><option value="1.5">Largest</option></select></div>
         <label class="opt"><span><b>Thumbnails</b><small>Show the article picture in the list.</small></span><input type="checkbox" class="tgl" id="o-th"></label>
+        <div class="opt" id="o-thsrow"><span><b>Thumbnail size</b></span><select id="o-ths"><option value="72">Small</option><option value="96">Default</option><option value="128">Large</option></select></div>
         <label class="opt"><span><b>Excerpts</b><small>Show the start of the article in the list.</small></span><input type="checkbox" class="tgl" id="o-ex"></label>
         <div class="opt"><span><b>List toolbar buttons</b><small>Turn buttons on or off and change their order. The space separates the left and right buttons and shows the version.</small></span></div>
         <div id="olb"></div>
@@ -831,7 +832,7 @@ $('#fsheet .bk').onclick=closeFilter;
 $('#fq').addEventListener('keydown',e=>{if(e.key=='Enter'){e.preventDefault();confirmFilter()}else if(e.key=='Escape')closeFilter()});
 
 /* options (stored in the browser) */
-let opts={tbOrder:['close','star','open','share','lab'],tbOff:[],lbOrder:['unread','read','starred','space','search','refresh','options'],lbOff:[],markScroll:true,vibrate:true,onBack:'refresh',thumbs:true,excerpts:true,uiSize:1,artSize:1,listBar:'top',artBar:'bottom',notify:false,notifyMin:10,
+let opts={tbOrder:['close','star','open','share','lab'],tbOff:[],lbOrder:['unread','read','starred','space','search','refresh','options'],lbOff:[],markScroll:true,vibrate:true,onBack:'refresh',thumbs:true,thumbSize:96,excerpts:true,uiSize:1,artSize:1,listBar:'top',artBar:'bottom',notify:false,notifyMin:10,
   gCardRight:'star',gCardLeft:'labels',gListUp:'markRefresh',gListDown:'refresh',gArtUp:'close',gArtDown:'close',gArtLeft:'next',gArtRight:'prev'};
 try{opts={...opts,...JSON.parse(ls.opts||'{}')}}catch{}
 const saveOpts=()=>{ls.opts=JSON.stringify(opts)};
@@ -893,11 +894,14 @@ function applyBars(){
   c.toggle('noth',!opts.thumbs);c.toggle('noex',!opts.excerpts);
   /* text sizes (options): CSS font sizes are multiplied by --ifs (interface) or --afs (article) */
   const st=document.documentElement.style;st.setProperty('--ifs',opts.uiSize);st.setProperty('--afs',opts.artSize);
+  st.setProperty('--th',opts.thumbSize+'px');$('#o-thsrow').hidden=!opts.thumbs;
   document.querySelectorAll('.seg').forEach(s=>s.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v==opts[s.dataset.o])));
 }
 $('#o-ifs').value=opts.uiSize;$('#o-afs').value=opts.artSize;
 $('#o-ifs').onchange=e=>{opts.uiSize=+e.target.value;saveOpts();applyBars();fitSpacer()};
 $('#o-afs').onchange=e=>{opts.artSize=+e.target.value;saveOpts();applyBars()};
+$('#o-ths').value=opts.thumbSize;
+$('#o-ths').onchange=e=>{opts.thumbSize=+e.target.value;saveOpts();applyBars()};
 $('#o-th').checked=opts.thumbs;$('#o-ex').checked=opts.excerpts;
 $('#o-th').onchange=e=>{opts.thumbs=e.target.checked;saveOpts();applyBars()};
 $('#o-ex').onchange=e=>{opts.excerpts=e.target.checked;saveOpts();applyBars()};
